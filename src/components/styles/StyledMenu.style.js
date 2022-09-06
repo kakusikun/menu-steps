@@ -1,6 +1,8 @@
 import styled from "styled-components/macro";
+import StyledItem from "./StyledItem.style";
 
 const StyledMenu = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,28 +11,42 @@ const StyledMenu = styled.div`
     width: 100%;
 `;
 
-const StyledMenuItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 5vh;
-    background-color: rgb(26, 26, 26);
-    border-radius: 5px;
-    font-family: sans-serif;
-    color: white;
-    padding: 10px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset, 10px 10px 20px rgba(255, 255, 255, 0.05);
-    letter-spacing: 2px;
-
-    .hidden {
-        display: none;
-    }
+const StyledMenuTitle = styled(StyledItem)`
 `;
 
+const StyledMenuList = styled(StyledMenuTitle)`
+    position: absolute;
+    align-items: flex-start;
+    z-index: 1000;
+    top: 50px;
+    overflow: hidden;
+    animation-name: example;
+    animation-duration: 1s;
 
+    @keyframes example {
+        from {transform: translateY(-20px);}
+        to {transform: translateY(0px);}
+    }
 
-export { StyledMenu, StyledMenuItem };
+    .select {
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+    }
+
+    .select:hover {
+        background-color: white;
+        color: black;
+    };
+
+    .select:last-child {
+        border: 0;
+    }
+}
+`;
+
+export {
+    StyledMenu,
+    StyledMenuTitle,
+    StyledMenuList,
+};

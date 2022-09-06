@@ -1,9 +1,11 @@
 import { StyledLayout } from "./styles/StyledLayout.style"
 import Menu from "./Menu";
+import { Address } from "./Address";
 
 function Layout() {
     return <StyledLayout>
-        <Menu title="hello" />
+        <Address />
+        <Menu menuTitle="Topic" menuList={["bulletin", "phone"]} />
     </StyledLayout>
 }
 
