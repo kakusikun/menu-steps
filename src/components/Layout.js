@@ -19,11 +19,11 @@ function Layout() {
     ]
     const Choices = [
         [
-            ["Fetch", "fetch 1"],
+            ["Fetch", "fetch 1", {handleURL: (item) => `https://httpbin.org/status/${item}`}],
             ["Query", "query 2"],
         ],
         [
-            ["Fetch", "fetch 3"],
+            ["Fetch", "fetch 3", null],
             ["Query", "query 4"]
         ]
     ]
@@ -40,7 +40,7 @@ function Layout() {
 
     Choices.map((a, i)=>(
         a.map((b, j) => (
-            b[0] === "Fetch" ? LayoutFetchMenuInfo.push({ level: 2, depLevel: 1, depValue: `${i}-${j}`, menuTitle: b[1]}) : null
+            b[0] === "Fetch" ? LayoutFetchMenuInfo.push({ level: 2, depLevel: 1, depValue: `${i}-${j}`, menuTitle: b[1], req: b[2]}) : null
         ))
     ))
 

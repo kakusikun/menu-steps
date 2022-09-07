@@ -6,7 +6,7 @@ import {
     StyledMenuList,
 } from "./styles/StyledMenu.style";
 
-function FetchMenu({ level, depLevel, depValue, menuTitle }) {
+function FetchMenu({ level, depLevel, depValue, menuTitle, req }) {
     const [title, setTitle] = useState("Select " + menuTitle);
     const [menuList, setMenuList] = useState([]);
     const [opened, setOpened] = useState(false);
@@ -52,15 +52,15 @@ function FetchMenu({ level, depLevel, depValue, menuTitle }) {
         (async () => {
             if (handleVisibility()) {
                 console.log('fetch');
-                var res = await fetch('https://httpbin.org/anything', {
+                let res = await fetch('https://httpbin.org/anything', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ test: ["item1", "item2"] })
+                    body: JSON.stringify({ test: [200, 400] })
                 });
                 try {
-                    var jsonData = await res.json()
+                    let jsonData = await res.json()
                     setMenuList(jsonData.json.test);
                 } catch (err) {
                     console.error(err)
@@ -69,6 +69,20 @@ function FetchMenu({ level, depLevel, depValue, menuTitle }) {
         })()
         handleTitle("Select " + menuTitle);
     }, [appState.menuSelection[depLevel]])
+
+    const handleResponse = (item) => {
+        (async () => {
+            if (req !== null && req !== undefined) {
+                console.log('fetch');
+                let res = await fetch(req.handleURL(item));
+                try {
+                    handleAppState({ response: res.status });
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+        })()
+    }
 
     return <>
         {
@@ -91,6 +105,7 @@ function FetchMenu({ level, depLevel, depValue, menuTitle }) {
                                             handleTitle(item);
                                             handleOpened();
                                             handleMenuSelection(index);
+                                            handleResponse(item);
                                         }}>
                                         {item}
                                     </div>

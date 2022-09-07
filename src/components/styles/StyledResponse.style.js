@@ -10,7 +10,10 @@ const StyledResponse = styled.div`
     margin: 10px 0 10px 0;
     border-radius: 5px;
     padding: 2px;
-    box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.4) inset, 5px 5px 10px rgba(255, 255, 255, 0.05) inset;
+    box-shadow: -2px -2px 2px -1px rgb(255 255 255 / 50%) inset,
+        25px 25px 55px rgb(0 0 0 / 45%) inset,
+        -6px -6px 10px -1px rgb(255 255 255 / 5%),
+        -21px -21px 33px rgb(255 255 255 / 6%) inset;
 `;
 
 export default StyledResponse;

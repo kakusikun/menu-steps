@@ -5,7 +5,7 @@ import StyledResponse from "./styles/StyledResponse.style";
 function ResponseArea() {
     const [appState, handleAppState] = useContext(AppCtx);
     return <StyledResponse>
-        {appState.response}
+        {JSON.stringify(appState.response, undefined, 4)}
     </StyledResponse>
 }
 
