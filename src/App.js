@@ -1,9 +1,24 @@
 import Layout from "./components/Layout";
-import MyDiv from "./components/myDiv";
+import AppCtx from "./AppContext";
+import { useState } from "react";
 
 function App() {
+
+  const initialAppState = {
+    server: "",
+    menuSelection: [],
+    response: "123",
+  }
+  const [appState, setAppState] = useState(initialAppState)
+
+  const handleAppState = (state) => {
+    setAppState({...appState, ...state})
+  }
+
   return (
-    <Layout />
+    <AppCtx.Provider value={[appState, handleAppState]}>
+      <Layout />
+    </AppCtx.Provider>
   );
 }
 

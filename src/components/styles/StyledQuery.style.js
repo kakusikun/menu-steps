@@ -1,10 +1,9 @@
 import styled from "styled-components/macro";
 import StyledItem from "./StyledItem.style";
 
-const StyledAddress = styled(StyledItem)`
-    border: 0;
-    background: transparent;
-    box-shadow: 0px 0px;
+const StyledQuery = styled(StyledItem)`
+    align-items: flex-start;
+
     input {
         background: transparent;
         outline: 0;
@@ -12,17 +11,20 @@ const StyledAddress = styled(StyledItem)`
         color: rgb(155, 155, 155);
         font-family: sans-serif;
         letter-spacing: 2px;
-        text-align: center;
         border-bottom: 1px solid white;
         width: 100%;
     }
-
+    
     input:valid {
-        color: white;
+        color: white
+    }
+
+    input.fade {
+        color: rgb(155, 155, 155);
     }
 
     &:after {
-        content: "press 'enter' to check";
+        content: "press 'enter' to confirm";
         font-size: xx-small;
         color: gray;
         transform: translateY(35%);
@@ -30,15 +32,11 @@ const StyledAddress = styled(StyledItem)`
         width: 100%;
     }
 
-    &.check:after {
-        content: "checked!";
+    &.confirm:after {
+        content: "confirm!";
         color: rgb(51 255 51);;
     }
 
-    &.error:after {
-        content: "error!";
-        color: red;
-    }
 `;
 
-export { StyledAddress };
+export default StyledQuery;

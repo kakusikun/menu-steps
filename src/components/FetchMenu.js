@@ -6,8 +6,9 @@ import {
     StyledMenuList,
 } from "./styles/StyledMenu.style";
 
-function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
+function FetchMenu({ level, depLevel, depValue, menuTitle }) {
     const [title, setTitle] = useState("Select " + menuTitle);
+    const [menuList, setMenuList] = useState([]);
     const [opened, setOpened] = useState(false);
     const [appState, handleAppState] = useContext(AppCtx);
 
@@ -48,6 +49,24 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
     const handleClosed = () => setOpened(false);
 
     useEffect(() => {
+        (async () => {
+            if (handleVisibility()) {
+                console.log('fetch');
+                var res = await fetch('https://httpbin.org/anything', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ test: ["item1", "item2"] })
+                });
+                try {
+                    var jsonData = await res.json()
+                    setMenuList(jsonData.json.test);
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+        })()
         handleTitle("Select " + menuTitle);
     }, [appState.menuSelection[depLevel]])
 
@@ -85,4 +104,4 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
     </>
 }
 
-export default Menu;
+export default FetchMenu;
