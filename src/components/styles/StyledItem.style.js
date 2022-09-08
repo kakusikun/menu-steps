@@ -19,4 +19,5 @@ const StyledItem = styled.div`
     letter-spacing: 2px;
 `;
 
+
 export default StyledItem;

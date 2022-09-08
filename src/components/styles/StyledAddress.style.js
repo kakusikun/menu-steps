@@ -2,9 +2,15 @@ import styled from "styled-components/macro";
 import StyledItem from "./StyledItem.style";
 
 const StyledAddress = styled(StyledItem)`
+    flex-direction: row;
+    justify-content: space-around;
     border: 0;
     background: transparent;
-    box-shadow: 0px 0px;
+    box-shadow: -2px -2px 2px -1px rgb(255 255 255 / 50%) inset,
+        25px 25px 55px rgb(0 0 0 / 45%) inset,
+        -6px -6px 10px -1px rgb(255 255 255 / 5%),
+        -21px -21px 33px rgb(255 255 255 / 6%) inset;
+
     input {
         background: transparent;
         outline: 0;
@@ -13,15 +19,30 @@ const StyledAddress = styled(StyledItem)`
         font-family: sans-serif;
         letter-spacing: 2px;
         text-align: center;
+        width: 80%;
+        height: 5vh;
         border-bottom: 1px solid white;
-        width: 100%;
     }
 
     input:valid {
         color: white;
     }
 
-    &:after {
+    .btn {
+        margin-bottom: 0;
+        width: 15%;
+        font-size: x-large;
+    }
+
+    .normal {
+        color: #00eb00;
+    }
+
+    .error {
+        color: #eb0000;
+    }
+
+    ${'' /* &:after {
         content: "press 'enter' to check";
         font-size: xx-small;
         color: gray;
@@ -38,7 +59,7 @@ const StyledAddress = styled(StyledItem)`
     &.error:after {
         content: "error!";
         color: red;
-    }
+    } */}
 `;
 
 export { StyledAddress };

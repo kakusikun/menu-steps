@@ -7,62 +7,110 @@ import AppCtx from "../AppContext";
 import FetchMenu from "./FetchMenu";
 import Query from "./Query";
 import ResponseArea from "./Response";
+import PostJsonArea from "./PostJson";
+
+function generateComponentArgs(info) {
+    switch (info[0]) {
+        case "menu":
+            return { type: "menu", menuTitle: info[1], menuList: info[2] }
+        case "fetch":
+            return { type: "fetch", menuTitle: info[1], req: info[2] }
+        case "query":
+            return { type: "query", queryTitle: info[1], req: info[2] }
+    }
+}
+
+function generateComponent(index, args){
+    switch (args.type) {
+        case "menu":
+            return <Menu key={index} {...args} />
+        case "fetch":
+            return <FetchMenu key={index} {...args} />
+        case "query":
+            return <Query key={index} {...args} />
+    }
+}
 
 function Layout() {
     const [appState, handleAppState] = useContext(AppCtx);
-    const Tppics = [
-        "Topic 1", "Topic 2"
-    ]
-    const Usages = [
-        ["Usage 1-1", "Usage 1-2"],
-        ["Usage 2-1", "Usage 2-2"]
-    ]
-    const Choices = [
+    const tree = [
         [
-            ["Fetch", "fetch 1", {handleURL: (item) => `https://httpbin.org/status/${item}`}],
-            ["Query", "query 2"],
+            "menu",
+            "Topic",
+            ["Topic 1", "Topic 2"]
         ],
         [
-            ["Fetch", "fetch 3", null],
-            ["Query", "query 4"]
+            [
+                "menu",
+                "Usage",
+                ["Usage 1-1", "Usage 1-2"]
+            ],
+            [
+                "menu",
+                "Usage",
+                ["Usage 2-1", "Usage 2-2"]
+            ]
+        ],
+        [
+            [
+                [
+                    "fetch",
+                    "fetch 1",
+                    { handleURL: (item) => `https://httpbin.org/status/${item}` }
+                ],
+                [
+                    "query",
+                    "query 2"
+                ]
+            ],
+            [
+                [
+                    "fetch",
+                    "fetch 3",
+                ],
+                [
+                    "query",
+                    "query 4",
+                    { handleURL: (item) => `https://httpbin.org/status/${item}` }
+                ]
+            ]
         ]
     ]
 
-    let LayoutMenuInfo = []
-    let LayoutFetchMenuInfo = []
-    let LayoutQueryInfo = []
-    
-    LayoutMenuInfo.push({ level: 0, depLevel: -1, depValue: "", menuTitle: "Topic", menuList: Tppics})
-
-    Usages.map((a, i)=>(
-        LayoutMenuInfo.push({ level: 1, depLevel: 0, depValue: `${i}`, menuTitle: "Usage", menuList: a})
-    ))
-
-    Choices.map((a, i)=>(
-        a.map((b, j) => (
-            b[0] === "Fetch" ? LayoutFetchMenuInfo.push({ level: 2, depLevel: 1, depValue: `${i}-${j}`, menuTitle: b[1], req: b[2]}) : null
-        ))
-    ))
-
-    Choices.map((a, i)=>(
-        a.map((b, j) => (
-            b[0] === "Query" ? LayoutQueryInfo.push({ level: 2, depLevel: 1, depValue: `${i}-${j}`, queryTitle: b[1]}) : null
-        ))
-    ))
+    let LayoutInfo = []
+    tree.forEach((subtree, level) => {
+        switch (level) {
+            case 0:
+                let args = generateComponentArgs(subtree);
+                args = { ...args, ...{ level: level, depLevel: level - 1, depValue: "" } };
+                LayoutInfo.push(args);
+                break
+            case 1:
+                subtree.forEach((info, i) => {
+                    let args = generateComponentArgs(info);
+                    args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}` } };
+                    LayoutInfo.push(args);
+                })
+                break
+            case 2:
+                subtree.forEach((subtree2, i) => {
+                    subtree2.forEach((info, j) => {
+                        let args = generateComponentArgs(info);
+                        args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}-${j}` } };
+                        LayoutInfo.push(args);
+                    })
+                })
+                break
+        }
+    })
 
     console.log(appState.server, appState.menuSelection);
     return <StyledLayout>
         <Address />
-        {LayoutMenuInfo.map((info, index) => (
-            <Menu key={index} {...info} />
+        {LayoutInfo.map((args, index) => (
+            generateComponent(index, args)
         ))}
-        {LayoutFetchMenuInfo.map((info, index) => (
-            <FetchMenu key={index} {...info} />
-        ))}
-        {LayoutQueryInfo.map((info, index) => (
-            <Query key={index} {...info} />
-        ))}
-
+        
         <ResponseArea />
         <StyledItem>
             <p>{appState.server}</p>

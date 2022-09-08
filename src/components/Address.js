@@ -2,37 +2,44 @@ import { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
 import AppCtx from "../AppContext";
 import { StyledAddress } from "./styles/StyledAddress.style";
+import { VscCircleLargeOutline, VscPassFilled, VscError } from "react-icons/vsc";
+import StyledItem from "./styles/StyledItem.style";
+import StyledPushItem from "./styles/StyledPushedItem.style";
 
 function Address() {
-    const [value, setValue] = useState("enter address with port");
-    const [status, setStatus] = useState({fade: "fade", confirm: false, check: ""})
+    const [value, setValue] = useState("");
+    const [status, setStatus] = useState({ confirm: false, check: "none" })
     const inputElement = useRef();
     const [appState, handleAppState] = useContext(AppCtx);
 
     const handleStatus = (newStatus) => {
-        setStatus({...status, ...newStatus});
+        setStatus({ ...status, ...newStatus });
     }
 
     const handleValue = (event) => {
         const value = event.target.value;
         setValue(value);
-        handleStatus({fade: "", confirm: false, check: ""})
+        handleStatus({ confirm: false, check: "none" })
     };
 
     const handleAddress = (event) => {
         if (inputElement.current.validity.valid) {
-            if(event.key === 'Enter') {
-                handleStatus({confirm: true})
-                handleAppState({server: value});
+            if (event.key === 'Enter') {
+                handleStatus({ confirm: true })
+                handleAppState({ server: value });
                 inputElement.current.blur();
             }
         }
     };
 
-    const recoverValue = (event) => {
-        const value = event.target.value;
-        if (value === "") {
-            setValue("enter address with port");
+    const handleCheck = (check) => {
+        switch(check) {
+            case "none":
+                return <VscCircleLargeOutline />
+            case "normal":
+                return <VscPassFilled className="normal" />
+            case "error":
+                return <VscError className="error" />
         }
     }
 
@@ -40,32 +47,44 @@ function Address() {
         (async () => {
             if (status.confirm) {
                 console.log('check');
-                var res = await fetch('https://httpbin.org/status/400');
                 try {
-                    if (res.status === 200){
-                        handleStatus({check: "check"});
+                    let res = await fetch('https://httpbin.org/status/400');
+                    if (res.status === 200) {
+                        handleStatus({ check: "normal" });
                     } else {
-                        handleStatus({check: "error"});
+                        handleStatus({ check: "error" });
                     }
                 } catch (err) {
+                    handleStatus({ check: "error" });
                     console.error(err)
                 }
             }
         })()
     }, [status.confirm])
 
-    return <StyledAddress className={status.check}>
+    return <StyledAddress>
         <input
             className={status.fade}
             ref={inputElement}
             value={value}
+            placeholder="enter address with port"
             onClick={() => { inputElement.current.select(); }}
-            onBlur={recoverValue}
             onChange={handleValue}
             onKeyDown={handleAddress}
             pattern="([0-9]+).([0-9]+).([0-9]+).([0-9]+):([0-9]+)"
             required
         />
+        {
+            status.confirm
+                ? <StyledPushItem
+                    className="btn">
+                    {handleCheck(status.check)}
+                </StyledPushItem>
+                : <StyledItem
+                    className="btn">
+                    <VscCircleLargeOutline />
+                </StyledItem>
+        }
     </StyledAddress>
 }
 
