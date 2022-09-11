@@ -4,11 +4,12 @@ import StyledItem from "./styles/StyledItem.style";
 import { StyledQuery } from "./styles/StyledQuery.style";
 import { VscCircleLargeOutline, VscPassFilled, VscError } from "react-icons/vsc";
 import StyledPushItem from "./styles/StyledPushedItem.style";
+import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
 function Query({ level, depLevel, depValue, queryTitle, req }) {
     const title = queryTitle;
     const [value, setValue] = useState("");
-    const [status, setStatus] = useState({ confirm: false, check: "none" })
+    const [status, setStatus] = useState({ confirm: false, check: "none", loading: false })
     const inputElement = useRef();
     const [appState, handleAppState] = useContext(AppCtx);
 
@@ -47,70 +48,92 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
         }
     }
 
-    const handleCheck = (check) => {
-        switch(check) {
+    const handleCheck = () => {
+        switch (status.check) {
             case "none":
                 return <VscCircleLargeOutline />
             case "normal":
                 return <VscPassFilled className="normal" />
             case "error":
                 return <VscError className="error" />
+            default:
+                break
         }
     }
-    
+
+    const handleBtn = () => {
+        if (status.loading) {
+            return <StyledLoadingItem
+                className="btn"
+                onClick={handleQuery}
+            >
+                <span>
+                    <VscCircleLargeOutline />
+                </span>
+            </StyledLoadingItem>
+        } else {
+            if (status.check !== "none") {
+                return <StyledPushItem
+                    tabindex={2}
+                    className="btn pushed"
+                    onClick={handleQuery}
+                >
+                    {handleCheck()}
+                </StyledPushItem>
+            } else {
+                return <StyledItem
+                    className="btn"
+                    onClick={handleQuery}
+                >
+                    <VscCircleLargeOutline />
+                </StyledItem>
+            }
+        }
+
+    }
+
     useEffect(() => {
-        (async () => {
-            if (status.confirm) {
-                if (req !== null && req !== undefined) {
-                    console.log('query');
+        if (status.confirm) {
+            if (req !== null && req !== undefined) {
+                console.log('query');
+                handleStatus({ loading: true });
+                setTimeout((async () => {
                     try {
-                        let res = await fetch(req.handleURL(value));
+                        let res = await fetch(req.handleResource(value), req.options);
                         if (res.status === 200) {
-                            handleStatus({ check: "normal" });
+                            handleStatus({ check: "normal", loading: false });
                         } else {
-                            handleStatus({ check: "error" });
+                            handleStatus({ check: "error", loading: false });
                         }
-                        handleAppState({ response: res.status });
+                        handleAppState({ response: res });
                     } catch (err) {
-                        handleStatus({ check: "error" });
+                        handleStatus({ check: "error", loading: false });
                         console.error(err)
                     }
-                } else {
-                    handleStatus({ check: "normal" });
-                }
+                }), 2000);
+            } else {
+                handleStatus({ check: "normal" });
             }
-        })()
+        }
     }, [status.confirm])
 
     return <>
         {
             handleVisibility()
                 ? <StyledQuery>
-                    <input
-                        ref={inputElement}
-                        value={value}
-                        placeholder={title}
-                        onClick={() => { inputElement.current.select(); }}
-                        onChange={handleValue}
-                        onKeyDown={handleKeyDown}
-                        type="text"
-                        required
-                    />
-                    {
-                        status.confirm
-                            ? <StyledPushItem
-                                className="btn"
-                                onClick={handleQuery}
-                            >
-                                {handleCheck(status.check)}
-                            </StyledPushItem>
-                            : <StyledItem
-                                className="btn"
-                                onClick={handleQuery}
-                            >
-                                <VscCircleLargeOutline />
-                            </StyledItem>
-                    }
+                    <div className="input-container">
+                        <input
+                            ref={inputElement}
+                            value={value}
+                            placeholder={title}
+                            onClick={() => { inputElement.current.select(); }}
+                            onChange={handleValue}
+                            onKeyDown={handleKeyDown}
+                            type="text"
+                            required
+                        />
+                    </div>
+                    {handleBtn()}
                 </StyledQuery>
                 : <></>
         }

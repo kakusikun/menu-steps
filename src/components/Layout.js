@@ -1,26 +1,28 @@
 import { StyledLayout } from "./styles/StyledLayout.style"
 import Menu from "./Menu";
 import { Address } from "./Address";
-import StyledItem from "./styles/StyledItem.style";
 import { useContext } from "react";
 import AppCtx from "../AppContext";
 import FetchMenu from "./FetchMenu";
 import Query from "./Query";
 import ResponseArea from "./Response";
 import PostJsonArea from "./PostJson";
+import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
 function generateComponentArgs(info) {
     switch (info[0]) {
         case "menu":
             return { type: "menu", menuTitle: info[1], menuList: info[2] }
         case "fetch":
-            return { type: "fetch", menuTitle: info[1], req: info[2] }
+            return { type: "fetch", menuTitle: info[1], listReq: info[2], req: info[3] }
         case "query":
             return { type: "query", queryTitle: info[1], req: info[2] }
+        default:
+            break
     }
 }
 
-function generateComponent(index, args){
+function generateComponent(index, args) {
     switch (args.type) {
         case "menu":
             return <Menu key={index} {...args} />
@@ -28,6 +30,8 @@ function generateComponent(index, args){
             return <FetchMenu key={index} {...args} />
         case "query":
             return <Query key={index} {...args} />
+        default:
+            break
     }
 }
 
@@ -37,7 +41,7 @@ function Layout() {
         [
             "menu",
             "Topic",
-            ["Topic 1", "Topic 2"]
+            ["Topic 1", "Topic 2", "Topic 2", "Topic 2", "Topic 2"]
         ],
         [
             [
@@ -56,7 +60,21 @@ function Layout() {
                 [
                     "fetch",
                     "fetch 1",
-                    { handleURL: (item) => `https://httpbin.org/status/${item}` }
+                    {
+                        handleResource: () => `${appState.server}/anything`,
+                        options: {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ test: [200, 400] })
+                        },
+                        handleList: (async (res) => {
+                            let jsonData = await res.json();
+                            return jsonData.json.test
+                        })
+                    },
+                    { handleResource: (item) => `${appState.server}/status/${item}` }
                 ],
                 [
                     "query",
@@ -67,11 +85,26 @@ function Layout() {
                 [
                     "fetch",
                     "fetch 3",
+                    {
+                        handleResource: () => `${appState.server}/anything`,
+                        options: {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ test: [202, 404] })
+                        },
+                        handleList: (async (res) => {
+                            let jsonData = await res.json();
+                            return jsonData.json.test
+                        })
+                    },
+                    { handleResource: (item) => `${appState.server}/status/${item}` }
                 ],
                 [
                     "query",
                     "query 4",
-                    { handleURL: (item) => `https://httpbin.org/status/${item}` }
+                    { handleResource: (item) => `${appState.server}/status/${item}` }
                 ]
             ]
         ]
@@ -101,21 +134,19 @@ function Layout() {
                     })
                 })
                 break
+            default:
+                break
         }
     })
 
-    console.log(appState.server, appState.menuSelection);
+    console.log(appState.server, appState.menuSelection, appState.response);
     return <StyledLayout>
         <Address />
         {LayoutInfo.map((args, index) => (
             generateComponent(index, args)
         ))}
-        
-        <ResponseArea />
-        <StyledItem>
-            <p>{appState.server}</p>
-            <p>{appState.menuSelection}</p>
-        </StyledItem>
+        <PostJsonArea />
+        {/* <ResponseArea /> */}
     </StyledLayout>
 }
 

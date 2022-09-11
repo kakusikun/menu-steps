@@ -6,7 +6,7 @@ import {
     StyledMenuList,
 } from "./styles/StyledMenu.style";
 
-function FetchMenu({ level, depLevel, depValue, menuTitle, req }) {
+function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
     const [title, setTitle] = useState("Select " + menuTitle);
     const [menuList, setMenuList] = useState([]);
     const [opened, setOpened] = useState(false);
@@ -51,17 +51,15 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, req }) {
     useEffect(() => {
         (async () => {
             if (handleVisibility()) {
-                console.log('fetch');
-                let res = await fetch('https://httpbin.org/anything', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ test: [200, 400] })
-                });
+                console.log('fetch list');
                 try {
-                    let jsonData = await res.json()
-                    setMenuList(jsonData.json.test);
+                    let res = await fetch(listReq.handleResource(), listReq.options);
+                    let list = await listReq.handleList(res);
+                    if (Array.isArray(list)) {
+                        setMenuList(list);
+                    } else {
+                        console.error('fetch menu only accept array');
+                    }
                 } catch (err) {
                     console.error(err)
                 }
@@ -74,9 +72,9 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, req }) {
         (async () => {
             if (req !== null && req !== undefined) {
                 console.log('fetch');
-                let res = await fetch(req.handleURL(item));
                 try {
-                    handleAppState({ response: res.status });
+                    let res = await fetch(req.handleResource(item), req.options);
+                    handleAppState({ response: res });
                 } catch (err) {
                     console.error(err)
                 }

@@ -5,6 +5,7 @@ import {
     StyledMenuTitle,
     StyledMenuList,
 } from "./styles/StyledMenu.style";
+import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
 
 function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
     const [title, setTitle] = useState("Select " + menuTitle);
@@ -47,6 +48,18 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
 
     const handleClosed = () => setOpened(false);
 
+    const handleHintIcon = (opened) => {
+        if (opened) {
+            return <VscChevronDown className="opened-hint" />
+        } else {
+            let selection = appState.menuSelection[level];
+            if (selection !== undefined && selection !== "") {
+                return <VscChevronUp className="closed-hint" />
+            }
+            return <VscChevronUp className="hint" />
+        }
+    }
+
     useEffect(() => {
         handleTitle("Select " + menuTitle);
     }, [appState.menuSelection[depLevel]])
@@ -58,8 +71,9 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
                     tabIndex={1}
                     onClick={handleOpened}
                     onBlur={handleClosed}>
-                    <StyledMenuTitle>
+                    <StyledMenuTitle opened={opened}>
                         <p>{title}</p>
+                        {handleHintIcon(opened)}
                     </StyledMenuTitle>
                     {
                         opened

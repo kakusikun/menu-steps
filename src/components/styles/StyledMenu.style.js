@@ -12,16 +12,74 @@ const StyledMenu = styled.div`
 `;
 
 const StyledMenuTitle = styled(StyledItem)`
+    position: relative;
+    cursor: pointer;
+    transition: 1s;
+
+    .hint {
+        position: absolute;
+        margin-left: 85%;
+    }
+
+    .opened-hint {
+        position: absolute;
+        margin-left: 85%;
+        animation-name: rotate-down;
+        animation-duration: 1s;
+    }
+
+    @keyframes rotate-down {
+        from {transform: rotate(-180deg);}
+        to {transform: rotate(0deg);}
+    }
+
+    .closed-hint {
+        position: absolute;
+        margin-left: 85%;
+        animation-name: rotate-up;
+        animation-duration: 1s;
+    }
+
+    @keyframes rotate-up {
+        from {transform: rotate(180deg);}
+        to {transform: rotate(0deg);}
+    }
 `;
 
-const StyledMenuList = styled(StyledMenuTitle)`
+const StyledMenuList = styled(StyledItem)`
     position: absolute;
     align-items: flex-start;
+    justify-content: start;
     z-index: 1000;
     top: 50px;
-    overflow: hidden;
+    overflow: auto;
+    overflow-x: hidden;
     animation-name: example;
     animation-duration: 1s;
+    max-height: 20vh;
+    padding: 10px 0px 10px 10px;
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: rgb(50, 50, 50); 
+        border-radius: 5px;
+        box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(50, 50, 50);; 
+    }
 
     @keyframes example {
         from {transform: translateY(-20px);}
