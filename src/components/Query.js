@@ -2,13 +2,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AppCtx from "../AppContext";
 import StyledItem from "./styles/StyledItem.style";
 import { StyledQuery } from "./styles/StyledQuery.style";
-import { VscCircleLargeOutline, VscPassFilled, VscError } from "react-icons/vsc";
-import StyledPushItem from "./styles/StyledPushedItem.style";
+import { VscPassFilled, VscError, VscCloudUpload } from "react-icons/vsc";
 import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
-function Query({ level, depLevel, depValue, queryTitle, req }) {
+function Query({ level, depLevel, depValue, index, queryTitle, req }) {
     const title = queryTitle;
-    const [value, setValue] = useState("");
+    const [queryValue, setQueryValue] = useState("");
     const [status, setStatus] = useState({ confirm: false, check: "none", loading: false })
     const inputElement = useRef();
     const [appState, handleAppState] = useContext(AppCtx);
@@ -18,17 +17,28 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
     }
 
     const handleValue = (event) => {
-        const value = event.target.value;
-        setValue(value);
+        if (status.confirm) {
+            let selection = appState.menuSelection;
+            let menuValue = appState.menuValue;
+            for (let i = level; i < selection.length; i++) {
+                selection[i] = "";
+                menuValue[i] = "";
+            }
+            handleAppState({ menuValue: menuValue, menuSelection: selection });
+        }
         handleStatus({ confirm: false, check: "none" });
+        const value = event.target.value;
+        setQueryValue(value);
     };
 
     const handleQuery = (event) => {
         if (inputElement.current.validity.valid) {
             handleStatus({ confirm: true });
             let selection = appState.menuSelection;
-            selection[level] = value;
-            handleAppState({ menuSelection: selection });
+            let menuValue = appState.menuValue;
+            menuValue[level] = queryValue;
+            selection[level] = `${depValue}-${index}`;
+            handleAppState({ menuValue: menuValue, menuSelection: selection });
             inputElement.current.blur();
         }
     };
@@ -51,7 +61,7 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
     const handleCheck = () => {
         switch (status.check) {
             case "none":
-                return <VscCircleLargeOutline />
+                return <VscCloudUpload />
             case "normal":
                 return <VscPassFilled className="normal" />
             case "error":
@@ -68,24 +78,32 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
                 onClick={handleQuery}
             >
                 <span>
-                    <VscCircleLargeOutline />
+                    <VscCloudUpload />
                 </span>
             </StyledLoadingItem>
         } else {
             if (status.check !== "none") {
-                return <StyledPushItem
+                return <StyledItem
                     tabindex={2}
                     className="btn pushed"
                     onClick={handleQuery}
                 >
                     {handleCheck()}
-                </StyledPushItem>
+                </StyledItem>
             } else {
+                if (req !== null && req !== undefined) {
+                    return <StyledItem
+                        className="btn"
+                        onClick={handleQuery}
+                    >
+                        <VscCloudUpload />
+                    </StyledItem>
+                }
                 return <StyledItem
                     className="btn"
                     onClick={handleQuery}
                 >
-                    <VscCircleLargeOutline />
+                    <VscCloudUpload />
                 </StyledItem>
             }
         }
@@ -99,13 +117,17 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
                 handleStatus({ loading: true });
                 setTimeout((async () => {
                     try {
-                        let res = await fetch(req.handleResource(value), req.options);
+                        let res = await fetch(
+                            req.handleResource(queryValue),
+                            req.handleOptions(queryValue)
+                        );
+                        let result = await req.handleResponse(res);
                         if (res.status === 200) {
                             handleStatus({ check: "normal", loading: false });
                         } else {
                             handleStatus({ check: "error", loading: false });
                         }
-                        handleAppState({ response: res });
+                        handleAppState({ response: result });
                     } catch (err) {
                         handleStatus({ check: "error", loading: false });
                         console.error(err)
@@ -124,7 +146,7 @@ function Query({ level, depLevel, depValue, queryTitle, req }) {
                     <div className="input-container">
                         <input
                             ref={inputElement}
-                            value={value}
+                            value={queryValue}
                             placeholder={title}
                             onClick={() => { inputElement.current.select(); }}
                             onChange={handleValue}

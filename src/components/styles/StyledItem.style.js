@@ -17,6 +17,13 @@ const StyledItem = styled.div`
     margin-bottom: 10px;
     box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset, 10px 10px 20px rgba(255, 255, 255, 0.05);
     letter-spacing: 2px;
+
+    .pushed {
+        box-shadow: -2px -2px 2px -1px rgb(255 255 255 / 50%) inset,
+            25px 25px 55px rgb(0 0 0 / 45%) inset,
+            -6px -6px 10px -1px rgb(255 255 255 / 5%),
+            -21px -21px 33px rgb(255 255 255 / 6%) inset;
+    }
 `;
 
 

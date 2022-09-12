@@ -7,14 +7,15 @@ function App() {
   const initialAppState = {
     server: "",
     menuSelection: [],
+    menuValue: [],
     response: "none",
   }
 
   const reducer = (state, action) => {
     if (action.response !== undefined) {
-      return {...state, ...action, ...{response: action.response.status}}
+      return { ...state, ...action, ...{ response: action.response } }
     }
-    return {...state, ...action}
+    return { ...state, ...action }
   }
 
   const [appState, dispatchAppState] = useReducer(reducer, initialAppState)

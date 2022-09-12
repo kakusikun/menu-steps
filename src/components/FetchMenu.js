@@ -21,8 +21,9 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
         }
     }
 
-    const handleMenuSelection = (index) => {
+    const handleMenuState = (index, item) => {
         let selection = appState.menuSelection;
+        let menuValue = appState.menuValue;
         if (depValue === "") {
             selection[level] = `${index}`;
         } else {
@@ -30,8 +31,10 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
         }
         for (let i = level + 1; i < selection.length; i++) {
             selection[i] = "";
+            menuValue[i] = "";
         }
-        handleAppState({ menuSelection: selection });
+        menuValue[level] = item;
+        handleAppState({ menuSelection: selection, menuValue: menuValue });
     };
 
     const handleTitle = (title) => {
@@ -53,7 +56,11 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
             if (handleVisibility()) {
                 console.log('fetch list');
                 try {
-                    let res = await fetch(listReq.handleResource(), listReq.options);
+                    let menuValue = appState.menuValue;
+                    let res = await fetch(
+                        listReq.handleResource(menuValue[depLevel]),
+                        listReq.handleOptions(menuValue[depLevel])
+                    );
                     let list = await listReq.handleList(res);
                     if (Array.isArray(list)) {
                         setMenuList(list);
@@ -73,8 +80,12 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
             if (req !== null && req !== undefined) {
                 console.log('fetch');
                 try {
-                    let res = await fetch(req.handleResource(item), req.options);
-                    handleAppState({ response: res });
+                    let res = await fetch(
+                        req.handleResource(item),
+                        req.handleOptions(item)
+                    );
+                    let result = await req.handleResponse(res);
+                    handleAppState({ response: result });
                 } catch (err) {
                     console.error(err)
                 }
@@ -102,7 +113,7 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
                                         onClick={() => {
                                             handleTitle(item);
                                             handleOpened();
-                                            handleMenuSelection(index);
+                                            handleMenuState(index, item);
                                             handleResponse(item);
                                         }}>
                                         {item}

@@ -17,6 +17,8 @@ function generateComponentArgs(info) {
             return { type: "fetch", menuTitle: info[1], listReq: info[2], req: info[3] }
         case "query":
             return { type: "query", queryTitle: info[1], req: info[2] }
+        case "post-json":
+            return { type: "post-json", postTitle: info[1], req: info[2] }
         default:
             break
     }
@@ -30,6 +32,8 @@ function generateComponent(index, args) {
             return <FetchMenu key={index} {...args} />
         case "query":
             return <Query key={index} {...args} />
+        case "post-json":
+            return <PostJsonArea key={index} {...args} />
         default:
             break
     }
@@ -62,19 +66,27 @@ function Layout() {
                     "fetch 1",
                     {
                         handleResource: () => `${appState.server}/anything`,
-                        options: {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ test: [200, 400] })
+                        handleOptions: () => {
+                            return {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ test: [200, 400] })
+                            }
                         },
                         handleList: (async (res) => {
                             let jsonData = await res.json();
                             return jsonData.json.test
-                        })
+                        }),
                     },
-                    { handleResource: (item) => `${appState.server}/status/${item}` }
+                    {
+                        handleResource: (item) => `${appState.server}/status/${item}`,
+                        handleOptions: () => { return {} },
+                        handleResponse: (async (res) => {
+                            return res.status
+                        })
+                    }
                 ],
                 [
                     "query",
@@ -87,24 +99,93 @@ function Layout() {
                     "fetch 3",
                     {
                         handleResource: () => `${appState.server}/anything`,
-                        options: {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ test: [202, 404] })
+                        handleOptions: () => {
+                            return {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ test: [202, 404] })
+                            }
                         },
                         handleList: (async (res) => {
                             let jsonData = await res.json();
                             return jsonData.json.test
-                        })
+                        }),
                     },
-                    { handleResource: (item) => `${appState.server}/status/${item}` }
+                    {
+                        handleResource: (item) => `${appState.server}/status/${item}`,
+                        handleOptions: () => { return {} },
+                        handleResponse: (async (res) => {
+                            return res.status
+                        })
+                    }
                 ],
                 [
                     "query",
                     "query 4",
-                    { handleResource: (item) => `${appState.server}/status/${item}` }
+                    {
+                        handleResource: (item) => `${appState.server}/status/${item}`,
+                        handleOptions: () => { return {} },
+                        handleResponse: (async (res) => {
+                            return res.status
+                        })
+                    }
+                ]
+            ]
+        ],
+        [
+            [
+                [
+                    [
+                        null
+                    ],
+                    [
+                        null
+                    ]
+                ],
+                [
+                    [
+                        null
+                    ],
+                    [
+                        null
+                    ]
+                ]
+            ],
+            [
+                [
+                    [
+                        null
+                    ],
+                    [
+                        null
+                    ]
+                ],
+                [
+                    [
+                        null
+                    ],
+                    [
+                        "post-json",
+                        "post-json 4-1",
+                        {
+                            handleResource: (item) => `${appState.server}/anything`,
+                            handleOptions: (value) => {
+                                return {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(value)
+                                }
+                            },
+                            handleResponse: (async (res) => {
+                                let jsonData = await res.json();
+                                return JSON.stringify(jsonData.json, undefined, 4)
+                            })
+                        }
+                    ]
                 ]
             ]
         ]
@@ -121,7 +202,7 @@ function Layout() {
             case 1:
                 subtree.forEach((info, i) => {
                     let args = generateComponentArgs(info);
-                    args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}` } };
+                    args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}`, index: i } };
                     LayoutInfo.push(args);
                 })
                 break
@@ -129,8 +210,19 @@ function Layout() {
                 subtree.forEach((subtree2, i) => {
                     subtree2.forEach((info, j) => {
                         let args = generateComponentArgs(info);
-                        args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}-${j}` } };
+                        args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}-${j}`, index: j } };
                         LayoutInfo.push(args);
+                    })
+                })
+                break
+            case 3:
+                subtree.forEach((subtree2, i) => {
+                    subtree2.forEach((subtree3, j) => {
+                        subtree3.forEach((info, k) => {
+                            let args = generateComponentArgs(info);
+                            args = { ...args, ...{ level: level, depLevel: level - 1, depValue: `${i}-${j}-${k}`, index: k } };
+                            LayoutInfo.push(args);
+                        })
                     })
                 })
                 break
@@ -139,14 +231,13 @@ function Layout() {
         }
     })
 
-    console.log(appState.server, appState.menuSelection, appState.response);
+    console.log(appState.server, appState.menuSelection, appState.menuValue, appState.response);
     return <StyledLayout>
         <Address />
         {LayoutInfo.map((args, index) => (
             generateComponent(index, args)
         ))}
-        <PostJsonArea />
-        {/* <ResponseArea /> */}
+        <ResponseArea />
     </StyledLayout>
 }
 

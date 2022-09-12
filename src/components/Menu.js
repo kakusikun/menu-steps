@@ -17,11 +17,15 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
         if (depLevel < 0) {
             return true
         } else {
+            if (depValue === "*") {
+                return selection[depLevel] !== ""
+            }
             return selection[depLevel] === depValue
         }
     }
 
-    const handleMenuSelection = (index) => {
+    const handleMenuState = (index, item) => {
+        let menuValue = appState.menuValue;
         let selection = appState.menuSelection;
         if (depValue === "") {
             selection[level] = `${index}`;
@@ -30,8 +34,10 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
         }
         for (let i = level + 1; i < selection.length; i++) {
             selection[i] = "";
+            menuValue[i] = "";
         }
-        handleAppState({ menuSelection: selection });
+        menuValue[level] = item;
+        handleAppState({ menuSelection: selection, menuValue: menuValue });
     };
 
     const handleTitle = (title) => {
@@ -85,7 +91,7 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
                                         onClick={() => {
                                             handleTitle(item);
                                             handleOpened();
-                                            handleMenuSelection(index);
+                                            handleMenuState(index, item);
                                         }}>
                                         {item}
                                     </div>

@@ -4,7 +4,6 @@ import AppCtx from "../AppContext";
 import { StyledAddress } from "./styles/StyledAddress.style";
 import { VscCircleLargeOutline, VscPassFilled, VscError } from "react-icons/vsc";
 import StyledItem from "./styles/StyledItem.style";
-import StyledPushItem from "./styles/StyledPushedItem.style";
 import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
 function Address() {
@@ -53,7 +52,6 @@ function Address() {
 
     const handleBtn = () => {
         if (status.loading) {
-            console.log("handleBtn", status)
             return <StyledLoadingItem
                 className="btn"
                 onClick={handleAddress}
@@ -64,13 +62,13 @@ function Address() {
             </StyledLoadingItem>
         } else {
             if (status.check !== "none") {
-                return <StyledPushItem
+                return <StyledItem className="pushed"
                     tabindex={2}
                     className="btn pushed"
                     onClick={handleAddress}
                 >
                     {handleCheck()}
-                </StyledPushItem>
+                </StyledItem>
             } else {
                 return <StyledItem
                     className="btn"
