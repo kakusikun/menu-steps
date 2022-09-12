@@ -31,6 +31,7 @@ const StyledJsonPost = styled(StyledPost)`
     }
 
     .selection > * {
+        cursor: pointer;
         margin: 0px 2px 0px 2px;
         padding: 2px;
         min-height: 0;

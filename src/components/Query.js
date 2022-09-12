@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AppCtx from "../AppContext";
 import StyledItem from "./styles/StyledItem.style";
 import { StyledQuery } from "./styles/StyledQuery.style";
-import { VscPassFilled, VscError, VscCloudUpload } from "react-icons/vsc";
+import { VscPassFilled, VscError, VscCloudUpload, VscCircleLargeOutline } from "react-icons/vsc";
 import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
 function Query({ level, depLevel, depValue, index, queryTitle, req }) {
@@ -73,12 +73,22 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
 
     const handleBtn = () => {
         if (status.loading) {
+            if (req !== null && req !== undefined) {
+                return <StyledLoadingItem
+                    className="btn"
+                    onClick={handleQuery}
+                >
+                    <span>
+                        <VscCloudUpload />
+                    </span>
+                </StyledLoadingItem>
+            }
             return <StyledLoadingItem
                 className="btn"
                 onClick={handleQuery}
             >
                 <span>
-                    <VscCloudUpload />
+                    <VscCircleLargeOutline />
                 </span>
             </StyledLoadingItem>
         } else {
@@ -103,7 +113,7 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
                     className="btn"
                     onClick={handleQuery}
                 >
-                    <VscCloudUpload />
+                    <VscCircleLargeOutline />
                 </StyledItem>
             }
         }
