@@ -3,6 +3,7 @@ import StyledJsonPost from "./styles/StyledPostJson.style";
 import { VscCloudUpload, VscClearAll } from "react-icons/vsc";
 import { useContext, useRef, useState } from "react";
 import AppCtx from "../AppContext";
+import { matchDepValue } from "./utils";
 
 function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
     const [btnPushed, setBtnPushed] = useState({ clear: false, send: false });
@@ -14,7 +15,7 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
         if (depLevel < 0) {
             return true
         } else {
-            return selection[depLevel] === depValue
+            return matchDepValue(depValue, selection[depLevel])
         }
     }
 

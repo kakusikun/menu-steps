@@ -57,7 +57,7 @@ const StyledAddress = styled(StyledItem)`
         align-items: center;
         inset: 3px;
         border-radius: 30px;
-        background-color: rgb(26, 26, 26);
+        background-color: rgb(40, 40, 40);
         z-index: 1;
     }
 

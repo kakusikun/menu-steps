@@ -114,7 +114,7 @@ function Layout() {
                         }),
                     },
                     {
-                        handleResource: (item) => `${appState.server}/status/${item}`,
+                        handleResource: (index, item) => `${appState.server}/status/${item}`,
                         handleOptions: () => { return {} },
                         handleResponse: (async (res) => {
                             return res.status

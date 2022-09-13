@@ -8,7 +8,7 @@ const StyledItem = styled.div`
     max-width: 300px;
     width: 100%;
     min-height: 5vh;
-    background-color: rgb(26, 26, 26);
+    background-color: rgb(40, 40, 40);
     border-radius: 5px;
     font-family: sans-serif;
     color: white;

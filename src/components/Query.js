@@ -4,6 +4,7 @@ import StyledItem from "./styles/StyledItem.style";
 import { StyledQuery } from "./styles/StyledQuery.style";
 import { VscPassFilled, VscError, VscCloudUpload, VscCircleLargeOutline } from "react-icons/vsc";
 import StyledLoadingItem from "./styles/StyledLoadingItem.style";
+import { matchDepValue } from "./utils";
 
 function Query({ level, depLevel, depValue, index, queryTitle, req }) {
     const title = queryTitle;
@@ -48,7 +49,7 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
         if (depLevel < 0) {
             return true
         } else {
-            return selection[depLevel] === depValue
+            return matchDepValue(depValue, selection[depLevel])
         }
     }
 

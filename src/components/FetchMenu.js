@@ -5,6 +5,8 @@ import {
     StyledMenuTitle,
     StyledMenuList,
 } from "./styles/StyledMenu.style";
+import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
+import { matchDepValue } from "./utils";
 
 function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
     const [title, setTitle] = useState("Select " + menuTitle);
@@ -17,7 +19,7 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
         if (depLevel < 0) {
             return true
         } else {
-            return selection[depLevel] === depValue
+            return matchDepValue(depValue, selection[depLevel])
         }
     }
 
@@ -51,6 +53,18 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
 
     const handleClosed = () => setOpened(false);
 
+    const handleHintIcon = (opened) => {
+        if (opened) {
+            return <VscChevronDown className="opened-hint" />
+        } else {
+            let selection = appState.menuSelection[level];
+            if (selection !== undefined && selection !== "") {
+                return <VscChevronUp className="closed-hint" />
+            }
+            return <VscChevronUp className="hint" />
+        }
+    }
+
     useEffect(() => {
         (async () => {
             if (handleVisibility()) {
@@ -75,14 +89,14 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
         handleTitle("Select " + menuTitle);
     }, [appState.menuSelection[depLevel]])
 
-    const handleResponse = (item) => {
+    const handleResponse = (index, item) => {
         (async () => {
             if (req !== null && req !== undefined) {
                 console.log('fetch');
                 try {
                     let res = await fetch(
-                        req.handleResource(item),
-                        req.handleOptions(item)
+                        req.handleResource(index, item),
+                        req.handleOptions(index, item)
                     );
                     let result = await req.handleResponse(res);
                     handleAppState({ response: result });
@@ -102,6 +116,7 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
                     onBlur={handleClosed}>
                     <StyledMenuTitle>
                         <p>{title}</p>
+                        {handleHintIcon(opened)}
                     </StyledMenuTitle>
                     {
                         opened
@@ -114,7 +129,7 @@ function FetchMenu({ level, depLevel, depValue, menuTitle, listReq, req }) {
                                             handleTitle(item);
                                             handleOpened();
                                             handleMenuState(index, item);
-                                            handleResponse(item);
+                                            handleResponse(index, item);
                                         }}>
                                         {item}
                                     </div>

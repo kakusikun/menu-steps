@@ -18,6 +18,19 @@ function Address() {
 
     const handleValue = (event) => {
         const value = event.target.value;
+        if (status.confirm) {
+            let selection = appState.menuSelection;
+            let menuValue = appState.menuValue;
+            for (let i = 0; i < selection.length; i++) {
+                selection[i] = "";
+                menuValue[i] = "";
+            }
+            handleAppState({
+                server: "",
+                menuValue: menuValue,
+                menuSelection: selection
+            });
+        }
         setValue(value);
         handleStatus({ confirm: false, check: "none" })
     };

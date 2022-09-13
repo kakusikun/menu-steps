@@ -1,6 +1,7 @@
 import Layout from "./components/Layout";
 import AppCtx from "./AppContext";
 import { useReducer, useState } from "react";
+import TserverLayout from "./components/TserverLayout";
 
 function App() {
 
@@ -8,7 +9,7 @@ function App() {
     server: "",
     menuSelection: [],
     menuValue: [],
-    response: "none",
+    response: "",
   }
 
   const reducer = (state, action) => {
@@ -26,7 +27,8 @@ function App() {
 
   return (
     <AppCtx.Provider value={[appState, handleAppState]}>
-      <Layout />
+      {/* <Layout /> */}
+      <TserverLayout />
     </AppCtx.Provider>
   );
 }

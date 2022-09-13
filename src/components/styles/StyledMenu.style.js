@@ -25,7 +25,7 @@ const StyledMenuTitle = styled(StyledItem)`
         position: absolute;
         margin-left: 85%;
         animation-name: rotate-down;
-        animation-duration: 1s;
+        animation-duration: 0.5s;
     }
 
     @keyframes rotate-down {
@@ -37,7 +37,7 @@ const StyledMenuTitle = styled(StyledItem)`
         position: absolute;
         margin-left: 85%;
         animation-name: rotate-up;
-        animation-duration: 1s;
+        animation-duration: 0.5s;
     }
 
     @keyframes rotate-up {
@@ -56,7 +56,7 @@ const StyledMenuList = styled(StyledItem)`
     overflow-x: hidden;
     animation-name: example;
     animation-duration: 1s;
-    max-height: 20vh;
+    max-height: 33vh;
     padding: 10px 0px 10px 10px;
 
     /* width */
@@ -71,14 +71,14 @@ const StyledMenuList = styled(StyledItem)`
     
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        background: rgb(50, 50, 50); 
+        background: rgb(26, 26, 26); 
         border-radius: 5px;
         box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset;
     }
 
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-        background: rgb(50, 50, 50);; 
+        background: rgb(26, 26, 26);; 
     }
 
     @keyframes example {

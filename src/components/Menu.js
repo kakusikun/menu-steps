@@ -6,8 +6,9 @@ import {
     StyledMenuList,
 } from "./styles/StyledMenu.style";
 import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
+import { matchDepValue } from "./utils";
 
-function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
+function Menu({ level, depLevel, depValue, menuTitle, menuList, req }) {
     const [title, setTitle] = useState("Select " + menuTitle);
     const [opened, setOpened] = useState(false);
     const [appState, handleAppState] = useContext(AppCtx);
@@ -20,7 +21,7 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
             if (depValue === "*") {
                 return selection[depLevel] !== ""
             }
-            return selection[depLevel] === depValue
+            return matchDepValue(depValue, selection[depLevel])
         }
     }
 
@@ -70,6 +71,27 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
         handleTitle("Select " + menuTitle);
     }, [appState.menuSelection[depLevel]])
 
+    const handleResponse = (index, item) => {
+        (async () => {
+            if (req !== null && req !== undefined) {
+                console.log('fetch');
+                try {
+                    let resource = req.handleResource(index, item);
+                    if (resource) {
+                        let res = await fetch(
+                            resource,
+                            req.handleOptions(index, item)
+                        );
+                        let result = await req.handleResponse(res);
+                        handleAppState({ response: result });
+                    }
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+        })()
+    }
+
     return <>
         {
             handleVisibility()
@@ -92,6 +114,7 @@ function Menu({ level, depLevel, depValue, menuTitle, menuList }) {
                                             handleTitle(item);
                                             handleOpened();
                                             handleMenuState(index, item);
+                                            handleResponse(index, item);
                                         }}>
                                         {item}
                                     </div>

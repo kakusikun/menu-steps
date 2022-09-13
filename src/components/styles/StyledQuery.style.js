@@ -14,14 +14,14 @@ const StyledQuery = styled(StyledItem)`
         position: relative;
         width: calc(95% - 5vh);
         left: 3%;
-        background-color: rgb(26, 26, 26);
+        background-color: rgb(40, 40, 40);
         overflow: hidden;
     }
 
     .input-container:after {
         content: "";
         position: absolute;
-        background-color: rgb(26, 26, 26);
+        background-color: rgb(40, 40, 40);
         border-radius: 50px 0px 0px 50px;
         height: 5vh;
         width: 5vh;
@@ -80,7 +80,7 @@ const StyledQuery = styled(StyledItem)`
         align-items: center;
         inset: 3px;
         border-radius: 30px;
-        background-color: rgb(26, 26, 26);
+        background-color: rgb(40, 40, 40);
         z-index: 1;
     }
 

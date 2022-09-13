@@ -6,10 +6,11 @@ const StyledResponse = styled(StyledItem)`
     border-radius: 5px 5px 20px 20px;
     position: relative;
     margin: 0;
+    background-color: rgb(50, 50, 50);
 
     textarea {
         width: 100%;
-        height: 30vh;
+        height: 50vh;
         border: none;
         overflow: auto;
         outline: none;
