@@ -8,10 +8,10 @@ const StyledAddress = styled(StyledItem)`
     border: 0;
     background: transparent;
     border-radius: 20px;
-    box-shadow: -2px -2px 2px -1px rgb(255 255 255 / 50%) inset,
-        25px 25px 55px rgb(0 0 0 / 45%) inset,
-        -6px -6px 10px -1px rgb(255 255 255 / 5%),
-        -21px -21px 33px rgb(255 255 255 / 6%) inset;
+    box-shadow: -2px -2px 2px -1px rgba(255, 255, 255, 0.5) inset,
+        25px 25px 55px rgba(0, 0, 0, 0.45) inset,
+        -6px -6px 10px -1px rgba(255, 255, 255, 0.05),
+        -21px -21px 33px rgba(255, 255, 255, 0.06) inset;
 
     input {
         background: transparent;
@@ -45,9 +45,9 @@ const StyledAddress = styled(StyledItem)`
     }
 
     .btn.pushed {
-        box-shadow: -2px -2px 2px -1px rgb(255 255 255 / 50%) inset,
-            25px 25px 55px rgb(0 0 0 / 45%) inset,
-            -21px -21px 33px rgb(255 255 255 / 6%) inset;
+        box-shadow: -2px -2px 2px -1px rgba(255, 255, 255, 0.5) inset,
+            25px 25px 55px rgba(0, 0, 0, 0.45) inset,
+            -21px -21px 33px rgba(255, 255, 255, 0.06) inset;
     }
 
     span {
