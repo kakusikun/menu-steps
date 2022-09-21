@@ -5,10 +5,10 @@ const StyledLayout = styled.div`
     flex-direction: column;
     align-items: center;
     margin-top: 10px;
-    .item {
+    ${'' /* .item {
         color: white;
         padding: 10px;
-    }
+    } */}
 `;
 
 export { StyledLayout };

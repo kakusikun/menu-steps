@@ -14,14 +14,14 @@ const StyledQuery = styled(StyledItem)`
         position: relative;
         width: calc(95% - 5vh);
         left: 3%;
-        background-color: rgb(40, 40, 40);
+        background-color: rgb(26, 26, 26);
         overflow: hidden;
     }
 
     .input-container:after {
         content: "";
         position: absolute;
-        background-color: rgb(40, 40, 40);
+        background-color: rgb(26, 26, 26);
         border-radius: 50px 0px 0px 50px;
         height: 5vh;
         width: 5vh;
@@ -65,10 +65,11 @@ const StyledQuery = styled(StyledItem)`
         ${'' /* box-shadow: none; */}
         border-radius: 30px;
         ${'' /* z-index: 5; */}
+        background-color: rgb(40, 40, 40);
     }
 
     .btn.pushed {
-        box-shadow: -2px -2px 2px -1px rgba(255, 255, 255, 0.05) inset,
+        box-shadow: -2px -2px 2px -1px rgba(255, 255, 255, 0.5) inset,
             25px 25px 55px rgba(0, 0, 0, 0.45) inset,
             -21px -21px 33px rgba(255, 255, 255, 0.06) inset;
     }

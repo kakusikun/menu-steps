@@ -68,14 +68,14 @@ const StyledJsonPost = styled(StyledPost)`
         
         /* Handle */
         ::-webkit-scrollbar-thumb {
-            background: rgb(26, 26, 26); 
+            background: rgb(40, 40, 40); 
             border-radius: 5px;
             box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset;
         }
 
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
-            background: rgb(26, 26, 26);; 
+            background: rgb(40, 40, 40);; 
         }
     }
 `;

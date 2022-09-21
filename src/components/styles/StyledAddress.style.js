@@ -42,6 +42,7 @@ const StyledAddress = styled(StyledItem)`
         ${'' /* background: transparent; */}
         ${'' /* box-shadow: none; */}
         border-radius: 30px;
+        background-color: rgb(40, 40, 40);
     }
 
     .btn.pushed {

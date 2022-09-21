@@ -16,8 +16,7 @@ function Address() {
         setStatus({ ...status, ...newStatus });
     }
 
-    const handleValue = (event) => {
-        const value = event.target.value;
+    const handleFocus = (event) => {
         if (status.confirm) {
             let selection = appState.menuSelection;
             let menuValue = appState.menuValue;
@@ -31,8 +30,12 @@ function Address() {
                 menuSelection: selection
             });
         }
+        handleStatus({ confirm: false, check: "none" });
+    };
+
+    const handleValue = (event) => {
+        const value = event.target.value;
         setValue(value);
-        handleStatus({ confirm: false, check: "none" })
     };
 
 
@@ -122,6 +125,7 @@ function Address() {
             placeholder="e.g., 127.0.0.1:8000"
             onClick={() => { inputElement.current.select(); }}
             onChange={handleValue}
+            onFocus={handleFocus}
             onKeyDown={handleKeyDown}
             // pattern="([0-9]+).([0-9]+).([0-9]+).([0-9]+):([0-9]+)"
             required

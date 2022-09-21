@@ -17,7 +17,7 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
         setStatus({ ...status, ...newStatus });
     }
 
-    const handleValue = (event) => {
+    const handleFocus = (event) => {
         if (status.confirm) {
             let selection = appState.menuSelection;
             let menuValue = appState.menuValue;
@@ -28,6 +28,9 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
             handleAppState({ menuValue: menuValue, menuSelection: selection });
         }
         handleStatus({ confirm: false, check: "none" });
+    };
+
+    const handleValue = (event) => {
         const value = event.target.value;
         setQueryValue(value);
     };
@@ -162,6 +165,7 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
                             onClick={() => { inputElement.current.select(); }}
                             onChange={handleValue}
                             onKeyDown={handleKeyDown}
+                            onFocus={handleFocus}
                             type="text"
                             required
                         />
