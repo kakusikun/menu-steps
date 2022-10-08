@@ -27,7 +27,8 @@ function Address() {
             handleAppState({
                 server: "",
                 menuValue: menuValue,
-                menuSelection: selection
+                menuSelection: selection,
+                response: "",
             });
         }
         handleStatus({ confirm: false, check: "none" });
@@ -78,7 +79,7 @@ function Address() {
             </StyledLoadingItem>
         } else {
             if (status.check !== "none") {
-                return <StyledItem className="pushed"
+                return <StyledItem
                     tabindex={2}
                     className="btn pushed"
                     onClick={handleAddress}
