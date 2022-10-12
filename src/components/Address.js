@@ -114,7 +114,7 @@ function Address() {
                     handleStatus({ check: "error", loading: false });
                     console.error(err)
                 }
-            }), 2000);
+            }), 500);
         }
     }, [status.confirm])
 

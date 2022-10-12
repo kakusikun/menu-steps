@@ -12,7 +12,7 @@ const StyledQuery = styled(StyledItem)`
 
     .input-container {
         position: relative;
-        width: calc(95% - 5vh);
+        width: calc(100% - 5vh);
         left: 3%;
         background-color: rgb(26, 26, 26);
         overflow: hidden;
@@ -53,13 +53,13 @@ const StyledQuery = styled(StyledItem)`
 
     .btn {
         position: absolute;
+        padding: 0;
         right: 10px;
         cursor: pointer;
-        ${'' /* position: absolute; */}
         margin-bottom: 0;
-        width: 5vh;
-        height: 5vh;
-        ${'' /* right: 15px; */}
+        width: 3vh;
+        height: 3vh;
+        min-height: unset;
         font-size: large;
         ${'' /* background: transparent; */}
         ${'' /* box-shadow: none; */}

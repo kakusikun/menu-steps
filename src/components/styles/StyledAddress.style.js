@@ -23,7 +23,6 @@ const StyledAddress = styled(StyledItem)`
         text-align: center;
         width: 80%;
         height: 5vh;
-        font-size: large;
         border-bottom: 1px solid white;
     }
 
@@ -32,12 +31,14 @@ const StyledAddress = styled(StyledItem)`
     }
 
     .btn {
+        position: absolute;
+        padding: 0;
         cursor: pointer;
-        ${'' /* position: absolute; */}
+        right: 10px;
         margin-bottom: 0;
-        width: 5vh;
-        height: 5vh;
-        ${'' /* right: 15px; */}
+        width: 3vh;
+        height: 3vh;
+        min-height: unset;
         font-size: large;
         ${'' /* background: transparent; */}
         ${'' /* box-shadow: none; */}

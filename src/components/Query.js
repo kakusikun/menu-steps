@@ -146,7 +146,7 @@ function Query({ level, depLevel, depValue, index, queryTitle, req }) {
                         handleStatus({ check: "error", loading: false });
                         console.error(err)
                     }
-                }), 2000);
+                }), 500);
             } else {
                 handleStatus({ check: "normal" });
             }
