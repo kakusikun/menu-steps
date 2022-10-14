@@ -22,7 +22,7 @@ const StyledAddress = styled(StyledItem)`
         letter-spacing: 2px;
         text-align: center;
         width: 80%;
-        height: 5vh;
+        height: 30px;
         border-bottom: 1px solid white;
     }
 
@@ -36,8 +36,8 @@ const StyledAddress = styled(StyledItem)`
         cursor: pointer;
         right: 10px;
         margin-bottom: 0;
-        width: 3vh;
-        height: 3vh;
+        width: 25px;
+        height: 25px;
         min-height: unset;
         font-size: large;
         ${'' /* background: transparent; */}
