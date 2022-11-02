@@ -9,6 +9,8 @@ const StyledPost = styled(StyledItem)`
 `;
 
 const StyledJsonPost = styled(StyledPost)`
+    
+    max-width: calc(100% - 45px);
 
     .menu {
         display: flex;

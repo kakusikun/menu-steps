@@ -12,7 +12,7 @@ const StyledQuery = styled(StyledItem)`
 
     .input-container {
         position: relative;
-        width: calc(100% - 5vh);
+        width: calc(100% - 45px);
         left: 3%;
         background-color: rgb(26, 26, 26);
         overflow: hidden;
@@ -23,8 +23,8 @@ const StyledQuery = styled(StyledItem)`
         position: absolute;
         background-color: rgb(26, 26, 26);
         border-radius: 50px 0px 0px 50px;
-        height: 5vh;
-        width: 5vh;
+        height: 30px;
+        width: 30px;
         transform: translate(-35%, -1%);
         box-shadow: 1px 1px rgba(255, 255, 255, 0.4) inset;
         z-index: 3;
@@ -44,7 +44,7 @@ const StyledQuery = styled(StyledItem)`
             25px 25px 55px rgba(0, 0, 0, 0.45) inset,
             -21px -21px 33px rgba(255, 255, 255, 0.06) inset;
         width: 100%;
-        height: 5vh;
+        height: 30px;
     }
     
     input:valid {
@@ -57,8 +57,8 @@ const StyledQuery = styled(StyledItem)`
         right: 10px;
         cursor: pointer;
         margin-bottom: 0;
-        width: 3vh;
-        height: 3vh;
+        width: 25px;
+        height: 25px;
         min-height: unset;
         font-size: large;
         ${'' /* background: transparent; */}

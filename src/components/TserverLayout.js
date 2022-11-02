@@ -7,6 +7,7 @@ import FetchMenu from "./FetchMenu";
 import Query from "./Query";
 import ResponseArea from "./Response";
 import PostJsonArea from "./PostJson";
+import Table from "./Table";
 
 function generateComponentArgs(info) {
     switch (info[0]) {
@@ -720,7 +721,8 @@ function TserverLayout() {
                 ))
                 : <></>
         }
-        < ResponseArea />
+        <Table columnNames={["time", "who", "code", "msg"]}/>
+        <ResponseArea />
     </StyledLayout>
 }
 

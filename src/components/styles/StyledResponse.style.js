@@ -2,6 +2,7 @@ import styled from "styled-components/macro";
 import StyledItem from "./StyledItem.style";
 
 const StyledResponse = styled(StyledItem)`
+    max-width: calc(100% - 45px);;
     min-height: auto;
     border-radius: 5px 5px 20px 20px;
     position: relative;

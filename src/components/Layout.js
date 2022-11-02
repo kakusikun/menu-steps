@@ -7,7 +7,6 @@ import FetchMenu from "./FetchMenu";
 import Query from "./Query";
 import ResponseArea from "./Response";
 import PostJsonArea from "./PostJson";
-import StyledLoadingItem from "./styles/StyledLoadingItem.style";
 
 function generateComponentArgs(info) {
     switch (info[0]) {
