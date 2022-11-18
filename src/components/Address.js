@@ -43,7 +43,11 @@ function Address() {
     const handleAddress = (event) => {
         if (inputElement.current.validity.valid) {
             handleStatus({ confirm: true })
-            handleAppState({ server: value });
+            if (value.includes("http")) {
+                handleAppState({ server: value });
+            } else {
+                handleAppState({ server: `http://${value}:8083` });
+            }
             inputElement.current.blur();
         }
     }

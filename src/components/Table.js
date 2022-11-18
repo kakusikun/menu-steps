@@ -86,6 +86,9 @@ function Table({ columnNames }) {
                         if (ok > 0) {
                             setTableType("array");
                         } else {
+                            tableObj.forEach((value, index) => {
+                                tableObj[index] = JSON.stringify(value, undefined, 4);
+                            })
                             setTableType("pure array");
                         }
                         setTable(tableObj);

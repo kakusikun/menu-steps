@@ -146,13 +146,14 @@ function TserverLayout() {
             [
                 "menu",
                 "Usage",
-                ["get supported apps", "get cross", "get slaves", "get master", "get msp", "update cross", "add slaves", "update master", "update msp", "delete master"],
+                ["get supported apps", "get cross", "get slaves", "get slaves status", "get master", "get msp", "update cross", "add slaves", "update master", "update msp", "delete master"],
                 {
                     handleResource: (index, item) => {
                         return [
                             `${appState.server}/aicore/supported-apps`,
                             `${appState.server}/aicore/cross`,
                             `${appState.server}/aicore/cross/slaves`,
+                            `${appState.server}/troom/bulletin/cross-slaves`,
                             `${appState.server}/aicore/cross/master`,
                             `${appState.server}/aicore/msp`,
                             "",
@@ -164,6 +165,7 @@ function TserverLayout() {
                     },
                     handleOptions: (index, item) => {
                         return [
+                            {},
                             {},
                             {},
                             {},
@@ -206,15 +208,18 @@ function TserverLayout() {
             [
                 "menu",
                 "Usage",
-                ["get next ad", "get playing ad", "get all ads", "get ad", "get last ad", "get ad history"],
+                ["get next view", "set and get next view", "get playing view", "get all views", "get view", "get all views with tag", "get views by tag", "get last view", "get view history"],
                 {
                     handleResource: (index, item) => {
                         return [
-                            `${appState.server}/signage/next-ad`,
-                            `${appState.server}/signage/playing-ad`,
-                            `${appState.server}/signage/ads`,
+                            `${appState.server}/signage/next-view`,
                             "",
-                            `${appState.server}/signage/last-ads`,
+                            `${appState.server}/signage/playing-view`,
+                            `${appState.server}/signage/views`,
+                            "",
+                            `${appState.server}/signage/recomm-views`,
+                            "",
+                            `${appState.server}/signage/last-views`,
                             "",
                         ][index]
                     },
@@ -345,13 +350,23 @@ function TserverLayout() {
                     }
                 ],
                 [
-                    "query",
-                    "phone owner name",
-                    null
+                    "fetch",
+                    "phone",
+                    {
+                        handleResource: () => `${appState.server}/troom/phones`,
+                        handleOptions: () => { },
+                        handleList: (async (res) => {
+                            let jsonData = await res.json();
+                            return jsonData
+                        }),
+                    },
                 ],
 
             ],
             [
+                [
+                    null
+                ],
                 [
                     null
                 ],
@@ -494,6 +509,18 @@ function TserverLayout() {
                     null
                 ],
                 [
+                    "query",
+                    "aid",
+                    {
+                        handleResource: (item) => `${appState.server}/signage/next-view/${item}`,
+                        handleOptions: () => { return {} },
+                        handleResponse: (async (res) => {
+                            let jsonData = await res.json();
+                            return JSON.stringify(jsonData, undefined, 4)
+                        }),
+                    }
+                ],
+                [
                     null
                 ],
                 [
@@ -503,7 +530,7 @@ function TserverLayout() {
                     "query",
                     "aid",
                     {
-                        handleResource: (item) => `${appState.server}signage/ads/${item}`,
+                        handleResource: (item) => `${appState.server}/signage/views/${item}`,
                         handleOptions: () => { return {} },
                         handleResponse: (async (res) => {
                             let jsonData = await res.json();
@@ -516,9 +543,24 @@ function TserverLayout() {
                 ],
                 [
                     "query",
-                    "number of ads",
+                    "tag",
                     {
-                        handleResource: (item) => `${appState.server}/signage/last-ads/${item}`,
+                        handleResource: (item) => `${appState.server}/signage/recomm-views/${item}`,
+                        handleOptions: () => { return {} },
+                        handleResponse: (async (res) => {
+                            let jsonData = await res.json();
+                            return JSON.stringify(jsonData, undefined, 4)
+                        }),
+                    }
+                ],
+                [
+                    null
+                ],
+                [
+                    "query",
+                    "number of views",
+                    {
+                        handleResource: (item) => `${appState.server}/signage/last-views/${item}`,
                         handleOptions: () => { return {} },
                         handleResponse: (async (res) => {
                             let jsonData = await res.json();

@@ -1,12 +1,12 @@
 import StyledItem from "./styles/StyledItem.style";
 import StyledJsonPost from "./styles/StyledPostJson.style";
-import { VscCloudUpload, VscClearAll } from "react-icons/vsc";
+import { VscCloudUpload, VscClearAll, VscListTree } from "react-icons/vsc";
 import { useContext, useRef, useState } from "react";
 import AppCtx from "../AppContext";
 import { matchDepValue } from "./utils";
 
 function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
-    const [btnPushed, setBtnPushed] = useState({ clear: false, send: false });
+    const [btnPushed, setBtnPushed] = useState({ clear: false, send: false, format: false });
     const textElement = useRef();
     const [appState, handleAppState] = useContext(AppCtx);
 
@@ -27,27 +27,64 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
                     textElement.current.value = "";
                 }
                 setBtnPushed({ ...btnPushed, ...{ clear: pushed } });
+            } else if (bType === "format") {
+                if (pushed) {
+                    try {
+                        let value = JSON.parse(textElement.current.value.replaceAll("\n", "").replaceAll(" ", ""));
+                        textElement.current.value = JSON.stringify(value, undefined, 4);
+                    } catch (err) {
+                        if (err instanceof SyntaxError){
+                            let errMsg = err.message;
+                            let msgPos = err.message.lastIndexOf("position") + 9;
+                            if (err.message.includes("position")){
+                                let errPos = Number(err.message.slice(msgPos , err.message.length));
+                                let msg = textElement.current.value.replaceAll("\n", "").replaceAll(" ", "");
+                                errMsg = `JSON parse error at ${msg.slice(errPos-50, errPos+50)}`;
+                            } 
+                            handleAppState({ response: errMsg });
+                        } else {
+                            handleAppState({ response: err });
+                        }
+                    }
+                }
+                setBtnPushed({ ...btnPushed, ...{ format: pushed } });
             } else {
                 if (pushed) {
                     if (req !== null && req !== undefined) {
-                        let value = JSON.parse(textElement.current.value.replaceAll("\n", "").replaceAll(" ", ""));
-                        let selection = appState.menuSelection;
-                        let menuValue = appState.menuValue;
-                        selection[level] = `${depValue}-${index}`;
-                        menuValue[level] = value;
-                        handleAppState({ menuValue: menuValue });
-                        (async () => {
-                            try {
-                                let res = await fetch(
-                                    req.handleResource(menuValue[depLevel]),
-                                    req.handleOptions(value)
-                                );
-                                let result = await req.handleResponse(res);
-                                handleAppState({ response: result });
-                            } catch (err) {
-                                console.error(err)
+                        console.log("send");
+                        try {
+                            let value = JSON.parse(textElement.current.value.replaceAll("\n", "").replaceAll(" ", ""));
+                            let selection = appState.menuSelection;
+                            let menuValue = appState.menuValue;
+                            selection[level] = `${depValue}-${index}`;
+                            menuValue[level] = value;
+                            handleAppState({ menuValue: menuValue });
+                            (async () => {
+                                try {
+                                    let res = await fetch(
+                                        req.handleResource(menuValue[depLevel]),
+                                        req.handleOptions(value)
+                                    );
+                                    let result = await req.handleResponse(res);
+                                    handleAppState({ response: result });
+                                } catch (err) {
+                                    console.error(err)
+                                }
+                            })()
+                        } catch (err) {
+                            if (err instanceof SyntaxError){
+                                let msgPos = err.message.lastIndexOf("position") + 9;
+                                if (!err.message.includes("position")){
+                                    msgPos = 0;
+                                } 
+                                let errPos = Number(err.message.slice(msgPos , err.message.length));
+                                let msg = textElement.current.value.replaceAll("\n", "").replaceAll(" ", "");
+                                let errMsg = `JSON parse error at ${msg.slice(errPos-50, errPos+50)}`;
+                                handleAppState({ response: errMsg });
+                            } else {
+                                handleAppState({ response: err });
                             }
-                        })()
+                        }
                     }
                 }
                 setBtnPushed({ ...btnPushed, ...{ send: pushed } });
@@ -73,6 +110,27 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
             onTouchEnd={handleMouse("clear", "up")}
         >
             <VscClearAll />
+        </StyledItem>;
+    }
+
+    const handleFormatBtn = () => {
+        if (btnPushed.format) {
+            return <StyledItem className="pushed"
+                onMouseDown={handleMouse("format", "down")}
+                onTouchStart={handleMouse("format", "down")}
+                onMouseUp={handleMouse("format", "up")}
+                onTouchEnd={handleMouse("format", "up")}
+            >
+                <VscListTree />
+            </StyledItem>
+        }
+        return <StyledItem
+            onMouseDown={handleMouse("format", "down")}
+            onTouchStart={handleMouse("format", "down")}
+            onMouseUp={handleMouse("format", "up")}
+            onTouchEnd={handleMouse("format", "up")}
+        >
+            <VscListTree />
         </StyledItem>;
     }
 
@@ -106,6 +164,7 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
                             {postTitle}
                         </div>
                         <div className="selection">
+                            {handleFormatBtn()}
                             {handleClearBtn()}
                             {handleSendBtn()}
                         </div>
