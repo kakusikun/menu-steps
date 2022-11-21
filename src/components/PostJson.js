@@ -32,12 +32,13 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
                     try {
                         let value = JSON.parse(textElement.current.value.replaceAll("\n", "").replaceAll(" ", ""));
                         textElement.current.value = JSON.stringify(value, undefined, 4);
+                        handleAppState({ response: "" });
                     } catch (err) {
                         if (err instanceof SyntaxError){
                             let errMsg = err.message;
-                            let msgPos = err.message.lastIndexOf("position") + 9;
-                            if (err.message.includes("position")){
-                                let errPos = Number(err.message.slice(msgPos , err.message.length));
+                            if (errMsg.includes("position")){
+                                let msgPos = errMsg.lastIndexOf("position") + 9;
+                                let errPos = Number(errMsg.slice(msgPos , errMsg.length));
                                 let msg = textElement.current.value.replaceAll("\n", "").replaceAll(" ", "");
                                 errMsg = `JSON parse error at ${msg.slice(errPos-50, errPos+50)}`;
                             } 
@@ -73,13 +74,13 @@ function PostJsonArea({ level, depLevel, depValue, index, postTitle, req }) {
                             })()
                         } catch (err) {
                             if (err instanceof SyntaxError){
-                                let msgPos = err.message.lastIndexOf("position") + 9;
-                                if (!err.message.includes("position")){
-                                    msgPos = 0;
+                                let errMsg = err.message;
+                                if (errMsg.includes("position")){
+                                    let msgPos = errMsg.lastIndexOf("position") + 9;
+                                    let errPos = Number(errMsg.slice(msgPos , errMsg.length));
+                                    let msg = textElement.current.value.replaceAll("\n", "").replaceAll(" ", "");
+                                    errMsg = `JSON parse error at ${msg.slice(errPos-50, errPos+50)}`;
                                 } 
-                                let errPos = Number(err.message.slice(msgPos , err.message.length));
-                                let msg = textElement.current.value.replaceAll("\n", "").replaceAll(" ", "");
-                                let errMsg = `JSON parse error at ${msg.slice(errPos-50, errPos+50)}`;
                                 handleAppState({ response: errMsg });
                             } else {
                                 handleAppState({ response: err });
