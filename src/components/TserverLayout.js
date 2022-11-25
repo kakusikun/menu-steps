@@ -42,676 +42,651 @@ function generateComponent(index, args) {
 function TserverLayout() {
     const [appState, handleAppState] = useContext(AppCtx);
 
-    const TserverTree = [
+    const L2_1 = [
+        "menu",
+        "Usage",
         [
-            "menu",
-            "Topic",
-            ["Basic", "System", "Heart", "Bulletin", "Phone", "AICore", "Member", "Signage"]
+            "get version",
+            "get port"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/version`,
+                    `${appState.server}/ports`
+                ][index]
+            },
+            handleOptions: () => { },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_2 = [
+        "menu",
+        "Usage",
+        [
+            "get latest system log",
+            "get system logs",
+            "get system info"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/sys-logs`,
+                    "",
+                    `${appState.server}/sys-info`,
+                ][index]
+            },
+            handleOptions: () => { },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_3 = [
+        "menu",
+        "Usage",
+        [
+            "get all hearts",
+            "get heartbeat"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/troom/hearts`,
+                    "",
+                ][index]
+            },
+            handleOptions: () => { },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_4 = [
+        "menu",
+        "Usage",
+        [
+            "get all bulletins",
+            "get bulletin content",
+            "write existing bulletin",
+            "write new bulletin"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/troom/bulletins`,
+                    "",
+                    "",
+                    "",
+                ][index]
+            },
+            handleOptions: () => { return {} },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_5 = [
+        "menu",
+        "Usage",
+        [
+            "get all phones",
+            "get phone owner",
+            "call out"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/troom/phones`,
+                    "",
+                    "",
+                ][index]
+            },
+            handleOptions: () => { },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_6 = [
+        "menu",
+        "Usage",
+        [
+            "get supported apps",
+            "get cross",
+            "get slaves",
+            "get slaves status",
+            "get master",
+            "get msp",
+            "update cross",
+            "add slaves",
+            "update master",
+            "update msp",
+            "delete master"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/aicore/supported-apps`,
+                    `${appState.server}/aicore/cross`,
+                    `${appState.server}/aicore/cross/slaves`,
+                    `${appState.server}/troom/bulletin/cross-slaves`,
+                    `${appState.server}/aicore/cross/master`,
+                    `${appState.server}/aicore/msp`,
+                    "",
+                    "",
+                    "",
+                    "",
+                    `${appState.server}/aicore/cross/master`,
+                ][index]
+            },
+            handleOptions: (index, item) => {
+                return [
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        method: 'DELETE',
+                    }
+                ][index]
+            },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_7 = [
+        "menu",
+        "Usage",
+        [
+            "get all members",
+            "get member bulletins",
+            "get member phones"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/troom/members`,
+                    "",
+                    "",
+                ][index]
+            },
+            handleOptions: () => { return {} },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L2_8 = [
+        "menu",
+        "Usage",
+        [
+            "get next view",
+            "set and get next view",
+            "get playing view",
+            "get all views",
+            "get view",
+            "get all views with tag",
+            "get views by tag",
+            "get last view",
+            "get view history"
+        ],
+        {
+            handleResource: (index, item) => {
+                return [
+                    `${appState.server}/signage/next-view`,
+                    "",
+                    `${appState.server}/signage/playing-view`,
+                    `${appState.server}/signage/views`,
+                    "",
+                    `${appState.server}/signage/recomm-views`,
+                    "",
+                    `${appState.server}/signage/last-views`,
+                    "",
+                ][index]
+            },
+            handleOptions: () => { return {} },
+            handleResponse: (async (res) => {
+                let jsonData = await res.json();
+                return JSON.stringify(jsonData, undefined, 4)
+            }),
+        }
+    ];
+
+    const L3_N = [null];
+
+    const L3_1 = [L3_N];
+
+    const L3_2 = [
+        L3_N,
+        [
+            "query",
+            "number of logs",
+            {
+                handleResource: (item) => `${appState.server}/sys-logs/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+        L3_N
+    ]
+
+    const L3_3 = [
+        L3_N,
+        [
+            "fetch",
+            "heart",
+            {
+                handleResource: () => `${appState.server}/troom/hearts`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            {
+                handleResource: (index, item) => `${appState.server}/troom/heart/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ]
+    ];
+
+    const L3_4 = [
+        L3_N,
+        [
+            "fetch",
+            "bulletin",
+            {
+                handleResource: () => `${appState.server}/troom/bulletins`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            {
+                handleResource: (index, item) => `${appState.server}/troom/bulletin/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
         ],
         [
-            [
-                "menu",
-                "Usage",
-                ["get version", "get port"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/version`,
-                            `${appState.server}/ports`
-                        ][index]
-                    },
-                    handleOptions: () => { },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get latest system log", "get system logs", "get system info"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/sys-logs`,
-                            "",
-                            `${appState.server}/sys-info`,
-                        ][index]
-                    },
-                    handleOptions: () => { },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get all hearts", "get heartbeat"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/troom/hearts`,
-                            "",
-                        ][index]
-                    },
-                    handleOptions: () => { },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get all bulletins", "get bulletin content", "write existing bulletin", "write new bulletin"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/troom/bulletins`,
-                            "",
-                            "",
-                            "",
-                        ][index]
-                    },
-                    handleOptions: () => { return {} },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get all phones", "get phone owner", "call out"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/troom/phones`,
-                            "",
-                            "",
-                        ][index]
-                    },
-                    handleOptions: () => { },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get supported apps", "get cross", "get slaves", "get slaves status", "get master", "get msp", "update cross", "add slaves", "update master", "update msp", "delete master"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/aicore/supported-apps`,
-                            `${appState.server}/aicore/cross`,
-                            `${appState.server}/aicore/cross/slaves`,
-                            `${appState.server}/troom/bulletin/cross-slaves`,
-                            `${appState.server}/aicore/cross/master`,
-                            `${appState.server}/aicore/msp`,
-                            "",
-                            "",
-                            "",
-                            "",
-                            `${appState.server}/aicore/cross/master`,
-                        ][index]
-                    },
-                    handleOptions: (index, item) => {
-                        return [
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {},
-                            {
-                                method: 'DELETE',
-                            }
-                        ][index]
-                    },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get all members", "get member bulletins", "get member phones"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/troom/members`,
-                            "",
-                            "",
-                        ][index]
-                    },
-                    handleOptions: () => { return {} },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
-            [
-                "menu",
-                "Usage",
-                ["get next view", "set and get next view", "get playing view", "get all views", "get view", "get all views with tag", "get views by tag", "get last view", "get view history"],
-                {
-                    handleResource: (index, item) => {
-                        return [
-                            `${appState.server}/signage/next-view`,
-                            "",
-                            `${appState.server}/signage/playing-view`,
-                            `${appState.server}/signage/views`,
-                            "",
-                            `${appState.server}/signage/recomm-views`,
-                            "",
-                            `${appState.server}/signage/last-views`,
-                            "",
-                        ][index]
-                    },
-                    handleOptions: () => { return {} },
-                    handleResponse: (async (res) => {
-                        let jsonData = await res.json();
-                        return JSON.stringify(jsonData, undefined, 4)
-                    }),
-                }
-            ],
+            "fetch",
+            "bulletin",
+            {
+                handleResource: () => `${appState.server}/troom/bulletins`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            null,
         ],
         [
-            [
-                [
-                    null
-                ]
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "query",
-                    "number of logs",
-                    {
-                        handleResource: (item) => `${appState.server}/sys-logs/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    null
-                ]
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "fetch",
-                    "heart",
-                    {
-                        handleResource: () => `${appState.server}/troom/hearts`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    {
-                        handleResource: (index, item) => `${appState.server}/troom/heart/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ]
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "fetch",
-                    "bulletin",
-                    {
-                        handleResource: () => `${appState.server}/troom/bulletins`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    {
-                        handleResource: (index, item) => `${appState.server}/troom/bulletin/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    "fetch",
-                    "bulletin",
-                    {
-                        handleResource: () => `${appState.server}/troom/bulletins`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    null,
-                ],
-                [
-                    "query",
-                    "bulletin name",
-                    null
-                ],
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "fetch",
-                    "phone",
-                    {
-                        handleResource: () => `${appState.server}/troom/phones`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    {
-                        handleResource: (index, item) => `${appState.server}/troom/phone/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    "fetch",
-                    "phone",
-                    {
-                        handleResource: () => `${appState.server}/troom/phones`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                ],
+            "query",
+            "bulletin name",
+            null
+        ],
+    ];
 
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    "post-json",
-                    "write cross",
-                    {
-                        handleResource: () => `${appState.server}/aicore/cross`,
-                        handleOptions: (value) => {
-                            return {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(value)
-                            }
-                        },
-                        handleResponse: (async (res) => {
-                            return res.status
-                        })
-                    }
-                ],
-                [
-                    "post-json",
-                    "add slaves",
-                    {
-                        handleResource: () => `${appState.server}/aicore/cross/slaves`,
-                        handleOptions: (value) => {
-                            return {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(value)
-                            }
-                        },
-                        handleResponse: (async (res) => {
-                            return res.status
-                        })
-                    }
-                ],
-                [
-                    "post-json",
-                    "write master",
-                    {
-                        handleResource: () => `${appState.server}/aicore/cross/master`,
-                        handleOptions: (value) => {
-                            return {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(value)
-                            }
-                        },
-                        handleResponse: (async (res) => {
-                            return res.status
-                        })
-                    }
-                ],
-                [
-                    "post-json",
-                    "write msp",
-                    {
-                        handleResource: (item) => `${appState.server}/aicore/cross/msp`,
-                        handleOptions: (value) => {
-                            return {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(value)
-                            }
-                        },
-                        handleResponse: (async (res) => {
-                            return res.status
-                        })
-                    }
-                ],
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "fetch",
-                    "member",
-                    {
-                        handleResource: (item) => `${appState.server}/troom/members`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    {
-                        handleResource: (index, item) => `${appState.server}/troom/member/${item}/bulletins`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    "fetch",
-                    "member",
-                    {
-                        handleResource: (item) => `${appState.server}/troom/members`,
-                        handleOptions: () => { },
-                        handleList: (async (res) => {
-                            let jsonData = await res.json();
-                            return jsonData
-                        }),
-                    },
-                    {
-                        handleResource: (index, item) => `${appState.server}/troom/member/${item}/phones`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ]
-            ],
-            [
-                [
-                    null
-                ],
-                [
-                    "query",
-                    "aid",
-                    {
-                        handleResource: (item) => `${appState.server}/signage/next-view/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    null
-                ],
-                [
-                    null
-                ],
-                [
-                    "query",
-                    "aid",
-                    {
-                        handleResource: (item) => `${appState.server}/signage/views/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    null
-                ],
-                [
-                    "query",
-                    "tag",
-                    {
-                        handleResource: (item) => `${appState.server}/signage/recomm-views/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-                [
-                    null
-                ],
-                [
-                    "query",
-                    "number of views",
-                    {
-                        handleResource: (item) => `${appState.server}/signage/last-views/${item}`,
-                        handleOptions: () => { return {} },
-                        handleResponse: (async (res) => {
-                            let jsonData = await res.json();
-                            return JSON.stringify(jsonData, undefined, 4)
-                        }),
-                    }
-                ],
-            ]
+    const L3_5 = [
+        L3_N,
+        [
+            "fetch",
+            "phone",
+            {
+                handleResource: () => `${appState.server}/troom/phones`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            {
+                handleResource: (index, item) => `${appState.server}/troom/phone/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
         ],
         [
-            [
-                [
-                    [
+            "fetch",
+            "phone",
+            {
+                handleResource: () => `${appState.server}/troom/phones`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+        ],
+    ];
 
-                    ]
-                ]
-            ],
-            [
-                [
-                    [
+    const L3_6 = [
+        L3_N, L3_N, L3_N, L3_N, L3_N, L3_N, [
+            "post-json",
+            "write cross",
+            {
+                handleResource: () => `${appState.server}/aicore/cross`,
+                handleOptions: (value) => {
+                    return {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(value)
+                    }
+                },
+                handleResponse: (async (res) => {
+                    return res.status
+                })
+            }
+        ],
+        [
+            "post-json",
+            "add slaves",
+            {
+                handleResource: () => `${appState.server}/aicore/cross/slaves`,
+                handleOptions: (value) => {
+                    return {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(value)
+                    }
+                },
+                handleResponse: (async (res) => {
+                    return res.status
+                })
+            }
+        ],
+        [
+            "post-json",
+            "write master",
+            {
+                handleResource: () => `${appState.server}/aicore/cross/master`,
+                handleOptions: (value) => {
+                    return {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(value)
+                    }
+                },
+                handleResponse: (async (res) => {
+                    return res.status
+                })
+            }
+        ],
+        [
+            "post-json",
+            "write msp",
+            {
+                handleResource: (item) => `${appState.server}/aicore/cross/msp`,
+                handleOptions: (value) => {
+                    return {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(value)
+                    }
+                },
+                handleResponse: (async (res) => {
+                    return res.status
+                })
+            }
+        ],
+    ];
 
-                    ]
-                ]
-            ],
-            [
-                [
-                    [
+    const L3_7 = [
+        L3_N,
+        [
+            "fetch",
+            "member",
+            {
+                handleResource: (item) => `${appState.server}/troom/members`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            {
+                handleResource: (index, item) => `${appState.server}/troom/member/${item}/bulletins`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+        [
+            "fetch",
+            "member",
+            {
+                handleResource: (item) => `${appState.server}/troom/members`,
+                handleOptions: () => { },
+                handleList: (async (res) => {
+                    let jsonData = await res.json();
+                    return jsonData
+                }),
+            },
+            {
+                handleResource: (index, item) => `${appState.server}/troom/member/${item}/phones`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ]
+    ];
 
-                    ]
-                ]
-            ],
+    const L3_8 = [
+        L3_N,
+        [
+            "query",
+            "aid",
+            {
+                handleResource: (item) => `${appState.server}/signage/next-view/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+        L3_N,
+        L3_N,
+        [
+            "query",
+            "aid",
+            {
+                handleResource: (item) => `${appState.server}/signage/views/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+        L3_N,
+        [
+            "query",
+            "tag",
+            {
+                handleResource: (item) => `${appState.server}/signage/recomm-views/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+        L3_N,
+        [
+            "query",
+            "number of views",
+            {
+                handleResource: (item) => `${appState.server}/signage/last-views/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
+    ];
+
+    const L4_N = [[null]];
+
+    const L4_1 = [L4_N];
+    const L4_2 = [L4_N];
+    const L4_3 = [L4_N];
+    const L4_4 = [
+        L4_N,
+        L4_N,
+        [
+            L3_N,
+            L3_N,
             [
-                [
-                    [
-                        null
-                    ]
-                ],
-                [
-                    [
-                        null
-                    ]
-                ],
-                [
-                    [
-                        null
-                    ],
-                    [
-                        null
-                    ],
-                    [
-                        "post-json",
-                        "write bulletin",
-                        {
-                            handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
-                            handleOptions: (value) => {
-                                return {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(value)
-                                }
+                "post-json",
+                "write bulletin",
+                {
+                    handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
+                    handleOptions: (value) => {
+                        return {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
                             },
-                            handleResponse: (async (res) => {
-                                return res.status
-                            })
+                            body: JSON.stringify(value)
                         }
-                    ],
-                    [
-                        null
-                    ]
-                ],
-                [
-                    [
-                        null
-                    ],
-                    [
-                        null
-                    ],
-                    [
-                        null
-                    ],
-                    [
-                        "post-json",
-                        "write new bulletin",
-                        {
-                            handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
-                            handleOptions: (value) => {
-                                return {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(value)
-                                }
-                            },
-                            handleResponse: (async (res) => {
-                                return res.status
-                            })
-                        }
-                    ],
-                ]
+                    },
+                    handleResponse: (async (res) => {
+                        return res.status
+                    })
+                }
             ],
+            L3_N
+        ],
+        [
+            L3_N,
+            L3_N,
+            L3_N,
             [
-                [
-                    [
-                        null
-                    ]
-                ],
-                [
-                    [
-                        null
-                    ]
-                ],
-                [
-                    [
-                        null
-                    ],
-                    [
-                        null
-                    ],
-                    [
-                        "post-json",
-                        "call out",
-                        {
-                            handleResource: (item) => `${appState.server}/troom/phone/${item}`,
-                            handleOptions: (value) => {
-                                return {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(value)
-                                }
+                "post-json",
+                "write new bulletin",
+                {
+                    handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
+                    handleOptions: (value) => {
+                        return {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
                             },
-                            handleResponse: (async (res) => {
-                                return res.status
-                            })
+                            body: JSON.stringify(value)
                         }
-                    ],
-                ],
-            ],
-            [
-                [
-                    [
-
-                    ]
-                ]
+                    },
+                    handleResponse: (async (res) => {
+                        return res.status
+                    })
+                }
             ],
         ]
-    ]
+    ];
+
+    const L4_5 = [
+        L4_N,
+        L4_N,
+        [
+            L3_N,
+            L3_N,
+            [
+                "post-json",
+                "call out",
+                {
+                    handleResource: (item) => `${appState.server}/troom/phone/${item}`,
+                    handleOptions: (value) => {
+                        return {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(value)
+                        }
+                    },
+                    handleResponse: (async (res) => {
+                        return res.status
+                    })
+                }
+            ],
+        ],
+    ];
+
+    const L4_6 = [L4_N];
+    const L4_7 = [L4_N];
+    const L4_8 = [L4_N];
+
+    const L1 = [
+        "menu",
+        "Topic",
+        [
+            "Basic",
+            "System",
+            "Heart",
+            "Bulletin",
+            "Phone",
+            "AICore",
+            "Member",
+            "Signage"
+        ]
+    ];
+    const L2 = [L2_1, L2_2, L2_3, L2_4, L2_5, L2_6, L2_7, L2_8]
+    const L3 = [L3_1, L3_2, L3_3, L3_4, L3_5, L3_6, L3_7, L3_8]
+    const L4 = [L4_1, L4_2, L4_3, L4_4, L4_5, L4_6, L4_7, L4_8]
+
+    const TserverTree = [L1, L2, L3, L4]
 
     let LayoutInfo = []
     TserverTree.forEach((subtree, level) => {
@@ -763,7 +738,7 @@ function TserverLayout() {
                 ))
                 : <></>
         }
-        <Table columnNames={["time", "who", "code", "msg"]}/>
+        <Table columnNames={["time", "who", "code", "msg"]} />
         <ResponseArea />
     </StyledLayout>
 }

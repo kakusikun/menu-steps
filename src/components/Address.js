@@ -127,7 +127,7 @@ function Address() {
             className={status.fade}
             ref={inputElement}
             value={value}
-            placeholder="e.g., 127.0.0.1:8000"
+            placeholder="e.g., 127.0.0.1"
             onClick={() => { inputElement.current.select(); }}
             onChange={handleValue}
             onFocus={handleFocus}
