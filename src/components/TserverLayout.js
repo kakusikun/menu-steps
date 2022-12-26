@@ -164,7 +164,7 @@ function TserverLayout() {
         "menu",
         "Usage",
         [
-            "get supported apps",
+            "get system modes",
             "get cross",
             "get slaves",
             "get slaves status",
@@ -179,7 +179,7 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/api/v2/aicore/supported-apps`,
+                    `${appState.server}/api/v2/aicore/systems`,
                     `${appState.server}/api/v2/aicore/cross`,
                     `${appState.server}/api/v2/aicore/cross/slaves`,
                     `${appState.server}/api/v2/troom/bulletin/cross-slaves`,
@@ -461,7 +461,7 @@ function TserverLayout() {
             "post-json",
             "write msp",
             {
-                handleResource: (item) => `${appState.server}/api/v2/aicore/cross/msp`,
+                handleResource: (item) => `${appState.server}/api/v2/aicore/msp`,
                 handleOptions: (value) => {
                     return {
                         method: 'POST',
