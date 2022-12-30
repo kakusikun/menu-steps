@@ -70,7 +70,9 @@ function TserverLayout() {
         [
             "get latest system log",
             "get system logs",
-            "get system info"
+            "get system info",
+            "get system states",
+            "get system state",
         ],
         {
             handleResource: (index, item) => {
@@ -78,6 +80,8 @@ function TserverLayout() {
                     `${appState.server}/api/v2/sys/logs`,
                     "",
                     `${appState.server}/api/v2/sys/info`,
+                    `${appState.server}/api/v2/sys/states`,
+                    "",
                 ][index]
             },
             handleOptions: () => { },
@@ -294,7 +298,20 @@ function TserverLayout() {
                 }),
             }
         ],
-        L3_N
+        L3_N,
+        L3_N,
+        [
+            "query",
+            "which state",
+            {
+                handleResource: (item) => `${appState.server}/api/v2/sys/states/${item}`,
+                handleOptions: () => { return {} },
+                handleResponse: (async (res) => {
+                    let jsonData = await res.json();
+                    return JSON.stringify(jsonData, undefined, 4)
+                }),
+            }
+        ],
     ]
 
     const L3_3 = [
