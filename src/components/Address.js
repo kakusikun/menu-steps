@@ -108,10 +108,11 @@ function Address() {
             handleStatus({ loading: true });
             setTimeout((async () => {
                 try {
-                    let res = await fetch(appState.server);
-                    if (res.status === 200) {
-                        handleStatus({ check: "normal", loading: false });
+                    let res = await fetch(`${appState.server}/api/v2/healthcheck`);
+                    if (res.ok) {
+                            handleStatus({ check: "normal", loading: false });
                     } else {
+                        handleAppState({response: "tserver is v1 which is not compatiable"})
                         handleStatus({ check: "error", loading: false });
                     }
                 } catch (err) {

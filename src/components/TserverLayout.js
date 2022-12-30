@@ -52,8 +52,8 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/version`,
-                    `${appState.server}/ports`
+                    `${appState.server}/api/v2/version`,
+                    `${appState.server}/api/v2/ports`
                 ][index]
             },
             handleOptions: () => { },
@@ -75,9 +75,9 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/sys-logs`,
+                    `${appState.server}/api/v2/sys/logs`,
                     "",
-                    `${appState.server}/sys-info`,
+                    `${appState.server}/api/v2/sys/info`,
                 ][index]
             },
             handleOptions: () => { },
@@ -98,7 +98,7 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/troom/hearts`,
+                    `${appState.server}/api/v2/troom/hearts`,
                     "",
                 ][index]
             },
@@ -122,7 +122,7 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/troom/bulletins`,
+                    `${appState.server}/api/v2/troom/bulletins`,
                     "",
                     "",
                     "",
@@ -147,7 +147,7 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/troom/phones`,
+                    `${appState.server}/api/v2/troom/phones`,
                     "",
                     "",
                 ][index]
@@ -164,7 +164,7 @@ function TserverLayout() {
         "menu",
         "Usage",
         [
-            "get supported apps",
+            "get system modes",
             "get cross",
             "get slaves",
             "get slaves status",
@@ -179,17 +179,17 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/aicore/supported-apps`,
-                    `${appState.server}/aicore/cross`,
-                    `${appState.server}/aicore/cross/slaves`,
-                    `${appState.server}/troom/bulletin/cross-slaves`,
-                    `${appState.server}/aicore/cross/master`,
-                    `${appState.server}/aicore/msp`,
+                    `${appState.server}/api/v2/aicore/systems`,
+                    `${appState.server}/api/v2/aicore/cross`,
+                    `${appState.server}/api/v2/aicore/cross/slaves`,
+                    `${appState.server}/api/v2/troom/bulletin/cross-slaves`,
+                    `${appState.server}/api/v2/aicore/cross/master`,
+                    `${appState.server}/api/v2/aicore/msp`,
                     "",
                     "",
                     "",
                     "",
-                    `${appState.server}/aicore/cross/master`,
+                    `${appState.server}/api/v2/aicore/cross/master`,
                 ][index]
             },
             handleOptions: (index, item) => {
@@ -227,7 +227,7 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/troom/members`,
+                    `${appState.server}/api/v2/troom/members`,
                     "",
                     "",
                 ][index]
@@ -257,14 +257,14 @@ function TserverLayout() {
         {
             handleResource: (index, item) => {
                 return [
-                    `${appState.server}/signage/next-view`,
+                    `${appState.server}/api/v2/signage/next-view`,
                     "",
-                    `${appState.server}/signage/playing-view`,
-                    `${appState.server}/signage/views`,
+                    `${appState.server}/api/v2/signage/playing-view`,
+                    `${appState.server}/api/v2/signage/views`,
                     "",
-                    `${appState.server}/signage/recomm-views`,
+                    `${appState.server}/api/v2/signage/recomm-views`,
                     "",
-                    `${appState.server}/signage/last-views`,
+                    `${appState.server}/api/v2/signage/last-views`,
                     "",
                 ][index]
             },
@@ -286,7 +286,7 @@ function TserverLayout() {
             "query",
             "number of logs",
             {
-                handleResource: (item) => `${appState.server}/sys-logs/${item}`,
+                handleResource: (item) => `${appState.server}/api/v2/sys/logs/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -303,7 +303,7 @@ function TserverLayout() {
             "fetch",
             "heart",
             {
-                handleResource: () => `${appState.server}/troom/hearts`,
+                handleResource: () => `${appState.server}/api/v2/troom/hearts`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -311,7 +311,7 @@ function TserverLayout() {
                 }),
             },
             {
-                handleResource: (index, item) => `${appState.server}/troom/heart/${item}`,
+                handleResource: (index, item) => `${appState.server}/api/v2/troom/heart/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -327,7 +327,7 @@ function TserverLayout() {
             "fetch",
             "bulletin",
             {
-                handleResource: () => `${appState.server}/troom/bulletins`,
+                handleResource: () => `${appState.server}/api/v2/troom/bulletins`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -335,7 +335,7 @@ function TserverLayout() {
                 }),
             },
             {
-                handleResource: (index, item) => `${appState.server}/troom/bulletin/${item}`,
+                handleResource: (index, item) => `${appState.server}/api/v2/troom/bulletin/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -347,7 +347,7 @@ function TserverLayout() {
             "fetch",
             "bulletin",
             {
-                handleResource: () => `${appState.server}/troom/bulletins`,
+                handleResource: () => `${appState.server}/api/v2/troom/bulletins`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -369,7 +369,7 @@ function TserverLayout() {
             "fetch",
             "phone",
             {
-                handleResource: () => `${appState.server}/troom/phones`,
+                handleResource: () => `${appState.server}/api/v2/troom/phones`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -377,7 +377,7 @@ function TserverLayout() {
                 }),
             },
             {
-                handleResource: (index, item) => `${appState.server}/troom/phone/${item}`,
+                handleResource: (index, item) => `${appState.server}/api/v2/troom/phone/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -389,7 +389,7 @@ function TserverLayout() {
             "fetch",
             "phone",
             {
-                handleResource: () => `${appState.server}/troom/phones`,
+                handleResource: () => `${appState.server}/api/v2/troom/phones`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -404,7 +404,7 @@ function TserverLayout() {
             "post-json",
             "write cross",
             {
-                handleResource: () => `${appState.server}/aicore/cross`,
+                handleResource: () => `${appState.server}/api/v2/aicore/cross`,
                 handleOptions: (value) => {
                     return {
                         method: 'POST',
@@ -423,7 +423,7 @@ function TserverLayout() {
             "post-json",
             "add slaves",
             {
-                handleResource: () => `${appState.server}/aicore/cross/slaves`,
+                handleResource: () => `${appState.server}/api/v2/aicore/cross/slaves`,
                 handleOptions: (value) => {
                     return {
                         method: 'POST',
@@ -442,7 +442,7 @@ function TserverLayout() {
             "post-json",
             "write master",
             {
-                handleResource: () => `${appState.server}/aicore/cross/master`,
+                handleResource: () => `${appState.server}/api/v2/aicore/cross/master`,
                 handleOptions: (value) => {
                     return {
                         method: 'POST',
@@ -461,7 +461,7 @@ function TserverLayout() {
             "post-json",
             "write msp",
             {
-                handleResource: (item) => `${appState.server}/aicore/cross/msp`,
+                handleResource: (item) => `${appState.server}/api/v2/aicore/msp`,
                 handleOptions: (value) => {
                     return {
                         method: 'POST',
@@ -484,7 +484,7 @@ function TserverLayout() {
             "fetch",
             "member",
             {
-                handleResource: (item) => `${appState.server}/troom/members`,
+                handleResource: (item) => `${appState.server}/api/v2/troom/members`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -492,7 +492,7 @@ function TserverLayout() {
                 }),
             },
             {
-                handleResource: (index, item) => `${appState.server}/troom/member/${item}/bulletins`,
+                handleResource: (index, item) => `${appState.server}/api/v2/troom/member/${item}/bulletins`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -504,7 +504,7 @@ function TserverLayout() {
             "fetch",
             "member",
             {
-                handleResource: (item) => `${appState.server}/troom/members`,
+                handleResource: (item) => `${appState.server}/api/v2/troom/members`,
                 handleOptions: () => { },
                 handleList: (async (res) => {
                     let jsonData = await res.json();
@@ -512,7 +512,7 @@ function TserverLayout() {
                 }),
             },
             {
-                handleResource: (index, item) => `${appState.server}/troom/member/${item}/phones`,
+                handleResource: (index, item) => `${appState.server}/api/v2/troom/member/${item}/phones`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -528,7 +528,7 @@ function TserverLayout() {
             "query",
             "aid",
             {
-                handleResource: (item) => `${appState.server}/signage/next-view/${item}`,
+                handleResource: (item) => `${appState.server}/api/v2/signage/next-view/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -542,7 +542,7 @@ function TserverLayout() {
             "query",
             "aid",
             {
-                handleResource: (item) => `${appState.server}/signage/views/${item}`,
+                handleResource: (item) => `${appState.server}/api/v2/signage/views/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -555,7 +555,7 @@ function TserverLayout() {
             "query",
             "tag",
             {
-                handleResource: (item) => `${appState.server}/signage/recomm-views/${item}`,
+                handleResource: (item) => `${appState.server}/api/v2/signage/recomm-views/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -568,7 +568,7 @@ function TserverLayout() {
             "query",
             "number of views",
             {
-                handleResource: (item) => `${appState.server}/signage/last-views/${item}`,
+                handleResource: (item) => `${appState.server}/api/v2/signage/last-views/${item}`,
                 handleOptions: () => { return {} },
                 handleResponse: (async (res) => {
                     let jsonData = await res.json();
@@ -593,7 +593,7 @@ function TserverLayout() {
                 "post-json",
                 "write bulletin",
                 {
-                    handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
+                    handleResource: (item) => `${appState.server}/api/v2/troom/bulletin/${item}`,
                     handleOptions: (value) => {
                         return {
                             method: 'POST',
@@ -618,7 +618,7 @@ function TserverLayout() {
                 "post-json",
                 "write new bulletin",
                 {
-                    handleResource: (item) => `${appState.server}/troom/bulletin/${item}`,
+                    handleResource: (item) => `${appState.server}/api/v2/troom/bulletin/${item}`,
                     handleOptions: (value) => {
                         return {
                             method: 'POST',
@@ -646,7 +646,7 @@ function TserverLayout() {
                 "post-json",
                 "call out",
                 {
-                    handleResource: (item) => `${appState.server}/troom/phone/${item}`,
+                    handleResource: (item) => `${appState.server}/api/v2/troom/phone/${item}`,
                     handleOptions: (value) => {
                         return {
                             method: 'POST',
